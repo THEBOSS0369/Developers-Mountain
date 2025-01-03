@@ -1,27 +1,27 @@
 import Link from "next/link";
-import { TypographyH1 } from "../ui/Typography";
+import { TypographyH2, TypographyH4 } from "../ui/Typography";
 
 export default function Header() {
   return (
-    <header>
-      <nav className=" text-white w-full py-4 px-6">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold">
-            <TypographyH1>Dev Mountain</TypographyH1>
+    <header className="fixed top-0 w-full bg-[#171918]">
+      <nav className=" text-white w-full py-6 ">
+        <div className="max-w-7xl pt-[10px] mx-auto flex justify-between items-center">
+          <Link href="/" className="text-2xl font-bold ">
+            <TypographyH2>🗻</TypographyH2>
           </Link>
 
           <div className="flex gap-8">
             <Link
               href="/ranking"
-              className="hover:text-gray-300 transition-colors"
+              className="text-gray-300 hover:text-white transition-colors"
             >
-              Ranking
+              <TypographyH4>Ranking</TypographyH4>
             </Link>
             <Link
               href="/dashboard"
-              className="hover:text-gray-300 transition-colors"
+              className="text-gray-300 hover:text-white transition-colors"
             >
-              Dashboard
+              <TypographyH4>Dashboard</TypographyH4>
             </Link>
           </div>
         </div>

@@ -78,3 +78,17 @@ my-nextjs-app/
 ├── .gitignore
 ├── package.json
 └── README.md
+
+various colors will be using 
+White text: text-white
+Cyan/teal text: text-cyan-400
+Light green text: text-green-400
+Yellow text: text-yellow-400
+Background: bg-black or bg-slate-950
+Red underlines: decoration-red-500
+White text: text-white
+Red text ("waiting"): text-red-500
+Blue text ("distributed web"): text-blue-500
+Purple/Pink text ("Break through the static"): text-fuchsia-500
+Black background: bg-black
+Red underlines: decoration-red-500
