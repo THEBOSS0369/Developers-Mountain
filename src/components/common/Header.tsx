@@ -3,10 +3,10 @@ import { TypographyH2, TypographyH4 } from "../ui/Typography";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 w-full bg-[#171918]">
-      <nav className=" text-white w-full py-6 ">
+    <header className="fixed top-0 w-full bg-[#171918] z-[100]">
+      <nav className=" text-white w-full py-2 ">
         <div className="max-w-7xl pt-[10px] mx-auto flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold ">
+          <Link href="/" className="text-2xl font-bold text-align-center">
             <TypographyH2>🗻</TypographyH2>
           </Link>
 

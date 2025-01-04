@@ -1,10 +1,10 @@
 export default function Home() {
   return (
-    <div>
+    <div className="pt-16 sm:pt-20">
       <div className=" mx-auto px-4">
-        <div className="grid grid-cols-2  grid-flow-col gap-4 min-h-screen">
+        <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 gap-4 min-h-[85vh]">
           <div className="flex flex-col justify-center">
-            <div className="text-6xl px-6 py-10 font-extrabold tracking-tight leading-tight">
+            <div className="text-4xl md:text-6xl px-6 py-10 font-extrabold tracking-tight leading-tight">
               Discover all
               <span className="text-7xl text-green-400"> top</span>
               <br />
@@ -18,7 +18,7 @@ export default function Home() {
               <span className="text-fuchsia-500"> Ranks! 😈</span>
             </div>
           </div>
-          <div className="bg-rose-400 rounded-sm px-0 flex justify-center items-center">
+          <div className="bg-[#2A2A2A] rounded-sm px-0 flex justify-center items-center">
             <div className="text-black text-9xl">⁉️</div>
           </div>
         </div>
