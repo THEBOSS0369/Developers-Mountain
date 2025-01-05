@@ -1,6 +1,9 @@
+import Header from "@/components/common/Header";
+
 export default function Home() {
   return (
     <div className="pt-16 sm:pt-20">
+      <Header />
       <div className=" mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 gap-4 min-h-[85vh]">
           <div className="flex flex-col justify-center">
