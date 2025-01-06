@@ -1,24 +1,26 @@
 "use client";
 
-// const Layout = ({ children }: { children: ReactNode }) => {
-
 import React, { ReactNode, useState } from "react";
 import { Menu, Search } from "lucide-react";
 import Link from "next/link";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen bg-[#131314]">
       {/* Header */}
-      <header className="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] bg-[#222222]  border-b border-gray-800 z-40">
+      <header
+        className={`fixed top-0 right-0 w-full transition-all duration-200 ${
+          isSidebarOpen ? "md:w-[calc(100%-16rem)]" : "w-full"
+        } bg-[#171717] border-b border-[#2D2D2D] z-40`}
+      >
         <div className="flex items-center justify-between px-4 py-2">
           {/* Left section with menu and logo */}
           <div className="flex items-center">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="md:hidden text-gray-300 hover:text-white mr-4"
+              className="text-[#ECECEC] hover:text-white mr-4"
             >
               <Menu size={24} />
             </button>
@@ -30,27 +32,29 @@ const Layout = ({ children }: { children: ReactNode }) => {
           {/* Search bar */}
           <div className="flex-1 max-w-2xl mx-4">
             <div className="relative">
-              <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-3 top-2.5 h-5 w-5 text-[#8E8EA0]" />
               <input
                 type="text"
                 placeholder="Search"
-                className="w-full bg-[#222222] text-gray-200 pl-10 pr-4 py-2 rounded-md border border-gray-700 focus:outline-none focus:border-gray-600"
+                className="w-full bg-[#202123] text-[#ECECEC] pl-10 pr-4 py-2 rounded-lg border border-[#2D2D2D] focus:outline-none focus:border-[#3D3D3D] focus:ring-1 focus:ring-[#3D3D3D]"
               />
             </div>
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center space-x-4 ">
+          <div className="flex items-center space-x-4">
             <Link href="/ranking" passHref>
-              <button className="text-gray-200 hover:text-white">
+              <button className="text-[#ECECEC] hover:text-white">
                 Ranking
               </button>
             </Link>
-            <button className="bg-blue-500 text-white px-4 py-1.5 rounded hover:bg-blue-600">
-              Sign Up
-            </button>
+            <Link href="/auth/login">
+              <button className="bg-[#E54D2E] text-white px-4 py-1.5 rounded-lg hover:bg-[#EC6142]">
+                Sign Up
+              </button>
+            </Link>
             <Link href="/dashboard" passHref>
-              <button className="border border-gray-700 text-gray-200 px-4 py-1.5 rounded hover:bg-gray-800">
+              <button className="border border-[#2D2D2D] text-[#ECECEC] px-4 py-1.5 rounded-lg hover:bg-[#202123]">
                 Log In
               </button>
             </Link>
@@ -60,50 +64,50 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-full w-64 bg-[#222222] border-r border-gray-800 transform transition-transform duration-200 ease-in-out ${
+        className={`fixed left-0 top-0 h-full w-64 bg-[#171717] border-r border-[#2D2D2D] transform transition-transform duration-200 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 z-30`}
+        } z-30`}
       >
         <div className="p-4">
           {/* Topics Section */}
           <div className="mb-8">
-            <h3 className="text-gray-400 font-medium mb-2 text-sm tracking-wide">
+            <h3 className="text-[#8E8EA0] font-medium mb-2 text-sm tracking-wide px-3">
               Topics
             </h3>
-            <nav>
-              <a href="#" className="block text-gray-300 hover:text-white py-1">
+            <nav className="space-y-1">
+              <button className="w-full text-left px-3 py-2 text-[#ECECEC] hover:bg-[#202123] rounded-lg transition-colors duration-150">
                 All Topics
-              </a>
+              </button>
             </nav>
           </div>
 
           {/* Tags Section */}
           <div className="mb-8">
-            <h3 className="text-gray-400 font-medium mb-2 text-sm tracking-wide">
+            <h3 className="text-[#8E8EA0] font-medium mb-2 text-sm tracking-wide px-3">
               TAGS
             </h3>
-            <nav>
-              <a href="#" className="block text-gray-300 hover:text-white py-1">
+            <nav className="space-y-1">
+              <button className="w-full text-left px-3 py-2 text-[#ECECEC] hover:bg-[#202123] rounded-lg transition-colors duration-150">
                 Popular Tags
-              </a>
+              </button>
             </nav>
           </div>
 
           {/* Categories Section */}
           <div>
-            <h3 className="text-gray-400 font-medium mb-2 text-sm tracking-wide">
+            <h3 className="text-[#8E8EA0] font-medium mb-2 text-sm tracking-wide px-3">
               CATEGORIES
             </h3>
             <nav className="space-y-1">
-              <a href="#" className="block text-gray-300 hover:text-white py-1">
+              <button className="w-full text-left px-3 py-2 text-[#ECECEC] hover:bg-[#202123] rounded-lg transition-colors duration-150">
                 Discussion
-              </a>
-              <a href="#" className="block text-gray-300 hover:text-white py-1">
+              </button>
+              <button className="w-full text-left px-3 py-2 text-[#ECECEC] hover:bg-[#202123] rounded-lg transition-colors duration-150">
                 How To
-              </a>
-              <a href="#" className="block text-gray-300 hover:text-white py-1">
+              </button>
+              <button className="w-full text-left px-3 py-2 text-[#ECECEC] hover:bg-[#202123] rounded-lg transition-colors duration-150">
                 Bug Report
-              </a>
+              </button>
             </nav>
           </div>
         </div>
@@ -111,13 +115,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
       {/* Main content area */}
       <main
-        className={`${
-          isSidebarOpen ? "ml-64" : "ml-0"
-        } md:ml-64 min-h-screen transition-margin duration-200 ease-in-out pt-14`}
+        className={`transition-all duration-200 pt-14 ${
+          isSidebarOpen ? "md:ml-64" : "ml-0"
+        } bg-[#131314] text-[#ECECEC]`}
       >
         <div className="p-6">
-          {/* Main content */}
-          <div className=" rounded-lg">{children}</div>
+          <div className="rounded-lg">{children}</div>
         </div>
       </main>
     </div>

@@ -1,9 +1,26 @@
-import Layout from "@/components/common/Layout";
+import {
+  LoginButton,
+  LogoutButton,
+  ProfileButton,
+  RegisterButton,
+} from "@/components/common/buttons.component";
 
-export default function Page() {
+export default function Home() {
   return (
-    <div className="">
-      <Layout> Hello</Layout>
-    </div>
+    <main
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "70vh",
+      }}
+    >
+      <div>
+        <LoginButton />
+        <RegisterButton />
+        <LogoutButton />
+        <ProfileButton />
+      </div>
+    </main>
   );
 }
