@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Layout from "@/components/common/Layout";
+import { NextAuthProvider } from "@/providers/NextAuthProvider";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -26,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="dark">
-        <Layout>{children}</Layout>
+        <NextAuthProvider>
+          <Layout>{children}</Layout>
+        </NextAuthProvider>
       </body>
     </html>
   );
