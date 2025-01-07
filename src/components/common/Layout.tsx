@@ -3,9 +3,17 @@
 import React, { ReactNode, useState } from "react";
 import { Menu, Search } from "lucide-react";
 import Link from "next/link";
+import {
+  LoginButton,
+  LogoutButton,
+  ProfileButton,
+  RegisterButton,
+} from "./buttons.component";
+import { useSession } from "next-auth/react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { data: session } = useSession();
 
   return (
     <div className="min-h-screen bg-[#131314]">
@@ -48,16 +56,17 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 Ranking
               </button>
             </Link>
-            <Link href="/auth/login">
-              <button className="bg-[#E54D2E] text-white px-4 py-1.5 rounded-lg hover:bg-[#EC6142]">
-                Sign Up
-              </button>
-            </Link>
-            <Link href="/dashboard" passHref>
-              <button className="border border-[#2D2D2D] text-[#ECECEC] px-4 py-1.5 rounded-lg hover:bg-[#202123]">
-                Log In
-              </button>
-            </Link>
+            {session ? (
+              <>
+                <ProfileButton />
+                <LogoutButton />
+              </>
+            ) : (
+              <>
+                <RegisterButton />
+                <LoginButton />
+              </>
+            )}
           </div>
         </div>
       </header>
