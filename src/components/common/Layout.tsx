@@ -16,12 +16,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const { data: session } = useSession();
 
   return (
-    <div className="min-h-screen bg-[#131314]">
+    <div className="min-h-screen bg-[#121211]">
       {/* Header */}
       <header
         className={`fixed top-0 right-0 w-full transition-all duration-200 ${
           isSidebarOpen ? "md:w-[calc(100%-16rem)]" : "w-full"
-        } bg-[#171717] border-b border-[#2D2D2D] z-40`}
+        } bg-[#ffffff5] backdrop-blur-sm border-b border-[#2D2D2D] z-40`}
       >
         <div className="flex items-center justify-between px-4 py-2">
           {/* Left section with menu and logo */}
@@ -73,7 +73,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-full w-64 bg-[#171717] border-r border-[#2D2D2D] transform transition-transform duration-200 ease-in-out ${
+        className={`fixed left-0 top-0 h-full w-64 bg-[#121211] border-r border-[#2D2D2D] transform transition-transform duration-200 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } z-30`}
       >
@@ -126,7 +126,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <main
         className={`transition-all duration-200 pt-14 ${
           isSidebarOpen ? "md:ml-64" : "ml-0"
-        } bg-[#131314] text-[#ECECEC]`}
+        } bg-[#121211] text-[#ECECEC]`}
       >
         <div className="p-6">
           <div className="rounded-lg">{children}</div>

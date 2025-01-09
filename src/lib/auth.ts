@@ -42,6 +42,12 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+
+  // For Custom Sign In Page othewise default next auth shows up
+  pages: {
+    signIn: "/Login",
+  },
+
   callbacks: {
     session: ({ session, token }) => {
       console.log("Session Callback", { session, token });
@@ -57,6 +63,7 @@ export const authOptions: NextAuthOptions = {
     jwt: ({ token, user }) => {
       console.log("JWT Callback", { token, user });
       if (user) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const u = user as unknown as any;
         return {
           ...token,
