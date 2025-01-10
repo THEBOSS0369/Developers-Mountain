@@ -1,5 +1,3 @@
-import Header from "@/components/common/Header";
-
 export default function Home() {
   return (
     <div className="bg-[#121211] pt-16 sm:pt-20">

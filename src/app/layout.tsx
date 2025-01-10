@@ -3,6 +3,13 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import Layout from "@/components/common/Layout";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
+import SideNavbar from "@/components/common/SideNavbar";
+import { Oswald } from "next/font/google";
+
+const oswald = Oswald({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -25,10 +32,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={oswald.className}>
       <body className=" dark">
         <NextAuthProvider>
-          <Layout>{children}</Layout>
+          <div className="flex h-screen">
+            <main className="flex-1">
+              <Layout>{children}</Layout>
+            </main>
+          </div>
         </NextAuthProvider>
       </body>
     </html>
