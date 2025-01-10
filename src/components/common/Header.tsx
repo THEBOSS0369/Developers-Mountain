@@ -1,17 +1,54 @@
-import Link from "next/link";
-import { Search } from "lucide-react";
+"use client";
 
-export default function Header() {
+import { Menu, Search } from "lucide-react";
+import Link from "next/link";
+import {
+  LoginButton,
+  LogoutButton,
+  ProfileButton,
+  RegisterButton,
+} from "./buttons.component";
+import { useSession } from "next-auth/react";
+
+interface HeaderProps {
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: (value: boolean) => void;
+  isHomePage: boolean;
+}
+
+const Header = ({
+  isSidebarOpen,
+  setIsSidebarOpen,
+  isHomePage,
+}: HeaderProps) => {
+  const { data: session } = useSession();
+
   return (
     <header
-      className={`fixed top-0 right-0 w-full border-[#FF977D] transition-all duration-200`}
+      className={`fixed top-0 right-0 w-full transition-all duration-200 ${
+        isSidebarOpen && !isHomePage ? "md:w-[calc(100%-16rem)]" : "w-full"
+      } bg-[#ffffff5] backdrop-blur-sm border-b border-[#2D2D2D] z-40`}
     >
       <div className="flex items-center justify-between px-4 py-2">
         {/* Left section with menu and logo */}
         <div className="flex items-center">
-          <button className="text-[#ECECEC] hover:text-white mr-4"></button>
+          {!isHomePage && (
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="text-[#ECECEC] hover:text-white mr-4"
+            >
+              <Menu size={24} />
+            </button>
+          )}
           <Link href="/">
-            <div className="h-8 w-8 text-3xl rounded">🌋</div>
+            <div className="px-[-4px] h-8 w-8 text-3xl rounded">🌋</div>
+          </Link>
+          <Link href="/ranking" passHref>
+            <button className="text-[#ECECEC] hover:text-white">
+              <h1 className="px-6 text-1xl font-bold tracking-tight uppercase">
+                Ranking
+              </h1>
+            </button>
           </Link>
         </div>
 
@@ -29,19 +66,21 @@ export default function Header() {
 
         {/* Right actions */}
         <div className="flex items-center space-x-4">
-          <Link href="/ranking" passHref>
-            <button className="text-[#ECECEC] hover:text-white">Ranking</button>
-          </Link>
-          <button className="bg-[#E54D2E] text-white px-4 py-1.5 rounded-lg hover:bg-[#EC6142]">
-            Sign Up
-          </button>
-          <Link href="/dashboard" passHref>
-            <button className="border border-[#2D2D2D] text-[#ECECEC] px-4 py-1.5 rounded-lg hover:bg-[#202123]">
-              Log In
-            </button>
-          </Link>
+          {session ? (
+            <>
+              <ProfileButton />
+              <LogoutButton />
+            </>
+          ) : (
+            <>
+              <RegisterButton />
+              <LoginButton />
+            </>
+          )}
         </div>
       </div>
     </header>
   );
-}
+};
+
+export default Header;
