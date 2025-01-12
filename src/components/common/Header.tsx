@@ -8,6 +8,7 @@ import {
   ProfileButton,
   RegisterButton,
 } from "./buttons.component";
+import NavigationMenuDemo from "./NavigationMenuDemo";
 import { useSession } from "next-auth/react";
 
 interface HeaderProps {
@@ -16,40 +17,25 @@ interface HeaderProps {
   isHomePage: boolean;
 }
 
-const Header = ({
-  isSidebarOpen,
-  setIsSidebarOpen,
-  isHomePage,
-}: HeaderProps) => {
+const Header = ({ isSidebarOpen, setIsSidebarOpen }: HeaderProps) => {
   const { data: session } = useSession();
 
   return (
     <header
-      className={`fixed top-0 right-0 w-full transition-all duration-200 ${
-        isSidebarOpen && !isHomePage ? "md:w-[calc(100%-16rem)]" : "w-full"
-      } bg-[#ffffff5] backdrop-blur-sm border-b border-[#2D2D2D] z-40`}
+      className={`fixed top-0 right-0 transition-all duration-200 ${
+        isSidebarOpen ? "md:w-[calc(100%-16rem)]" : "md:w-[calc(100%-5rem)]"
+      } bg-[#ffffff5] backdrop-blur-sm border-b p-1 border-[#2D2D2D] z-40`}
     >
       <div className="flex items-center justify-between px-4 py-2">
-        {/* Left section with menu and logo */}
         <div className="flex items-center">
-          {!isHomePage && (
-            <button
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="text-[#ECECEC] hover:text-white mr-4"
-            >
-              <Menu size={24} />
-            </button>
-          )}
-          <Link href="/">
-            <div className="px-[-4px] h-8 w-8 text-3xl rounded">🌋</div>
-          </Link>
-          <Link href="/ranking" passHref>
-            <button className="text-[#ECECEC] hover:text-white">
-              <h1 className="px-6 text-1xl font-bold tracking-tight uppercase">
-                Ranking
-              </h1>
-            </button>
-          </Link>
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="text-[#ECECEC] hover:text-white mr-4"
+          >
+            <Menu size={24} />
+          </button>
+
+          <NavigationMenuDemo />
         </div>
 
         {/* Search bar */}

@@ -6,35 +6,27 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const pathname = usePathname();
-
-  // Check if we're on the homepage
   const isHomePage = pathname === "/";
 
-  // Hide sidebar by default on homepage
-  useEffect(() => {
-    if (isHomePage) {
-      setIsSidebarOpen(true);
-    }
-  }, [isHomePage]);
+  // Initialize sidebar state based on current page
+  const [isSidebarOpen, setIsSidebarOpen] = useState(!isHomePage);
+
+  // Update sidebar state when pathname changes
 
   return (
     <div className="min-h-screen bg-[#121211]">
-      {/* Header Component */}
       <Header
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
         isHomePage={isHomePage}
       />
 
-      {/* Sidebar Component */}
       <Sidebar isSidebarOpen={isSidebarOpen} isHomePage={isHomePage} />
 
-      {/* Main content area */}
       <main
         className={`transition-all duration-200 pt-14 ${
-          isSidebarOpen && !isHomePage ? "md:ml-64" : "md:ml-16"
+          isSidebarOpen ? "md:ml-64" : "md:ml-20"
         } text-[#ECECEC]`}
       >
         <div className="p-6">
