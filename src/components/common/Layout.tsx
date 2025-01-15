@@ -1,34 +1,21 @@
 "use client";
 
-import React, { ReactNode, useState, useEffect } from "react";
+import React, { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import Sidebar from "./Sidebar";
 import Header from "./Header";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
+  const isLoginPage = pathname === "/Login" || pathname === "/register";
 
-  // Initialize sidebar state based on current page
-  const [isSidebarOpen, setIsSidebarOpen] = useState(!isHomePage);
-
-  // Update sidebar state when pathname changes
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="min-h-screen bg-[#121211]">
-      <Header
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
-        isHomePage={isHomePage}
-      />
-
-      <Sidebar isSidebarOpen={isSidebarOpen} isHomePage={isHomePage} />
-
-      <main
-        className={`transition-all duration-200 pt-14 ${
-          isSidebarOpen ? "md:ml-64" : "md:ml-20"
-        } text-[#ECECEC]`}
-      >
+      <Header />
+      <main className="pt-14 text-[#ECECEC]">
         <div className="p-6">
           <div className="rounded-lg">{children}</div>
         </div>
