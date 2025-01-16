@@ -40,6 +40,11 @@ export default function NavigationMenuDemo() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
+          <Link href="/" legacyBehavior passHref>
+            <NavigationMenuLink>Home</NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        {/* <NavigationMenuItem>
           <NavigationMenuTrigger>Dev Mountain</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -48,9 +53,9 @@ export default function NavigationMenuDemo() {
                   <Link
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/"
-                  >
+                  > */}
                     {/* <Icons.logo className="h-6 w-6" /> */}
-                    <div className="mb-2 mt-4 text-lg font-medium">
+                    {/* <div className="mb-2 mt-4 text-lg font-medium">
                       Dev Mountain
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
@@ -68,7 +73,7 @@ export default function NavigationMenuDemo() {
               </ListItem>
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem>
+        </NavigationMenuItem> */}
         <NavigationMenuItem>
           <NavigationMenuTrigger>Ranking</NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -105,10 +110,10 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm menu-bar font-medium leading-none text-stone-200">
+          <div className="text-sm  font-medium leading-none text-stone-200">
             {title}
           </div>
-          <p className="line-clamp-2 menu-bar text-sm leading-snug text-stone-400">
+          <p className="line-clamp-2  text-sm leading-snug text-stone-400">
             {children}
           </p>
         </a>

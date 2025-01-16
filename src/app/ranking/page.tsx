@@ -1,3 +1,5 @@
+"use client";
+
 export function ForumPage() {
   // Sample rank data - you can replace this with your actual data
   const ranks = [

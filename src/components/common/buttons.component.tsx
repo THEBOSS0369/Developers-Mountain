@@ -6,7 +6,7 @@ import Link from "next/link";
 export const LoginButton = () => {
   return (
     <button
-      className="border border-[#2D2D2D] text-[#ECECEC] px-4 py-1.5 rounded-lg hover:bg-[#202123]"
+      className="border border-emerald-600 bg-emerald-800 hover:bg-emerald-700 hover:border-emerald-400 text-[#ECECEC] px-3 py-2 rounded-lg text-sm"
       onClick={() => signIn()}
     >
       Log In
@@ -33,5 +33,5 @@ export const RegisterButton = () => {
 };
 
 export const ProfileButton = () => {
-  return <Link href="/profile">Profile</Link>;
+  return <Link href="/account">Account</Link>;
 };

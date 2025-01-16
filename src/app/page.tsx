@@ -1,3 +1,6 @@
+"use client";
+import Image from "next/image";
+
 export default function Home() {
   return (
     <div className="bg-[#121211] pt-16 sm:pt-20">
@@ -19,7 +22,7 @@ export default function Home() {
             </div>
           </div>
           <div className="bg-[#2A2A2A] rounded-sm px-0 flex justify-center items-center">
-            <div className="text-black text-9xl">⁉️</div>
+            <div className="text-black text-9xl"></div>
           </div>
         </div>
         <div>Hello</div>

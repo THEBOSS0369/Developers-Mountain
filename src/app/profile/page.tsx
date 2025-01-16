@@ -1,17 +1,32 @@
-"use client";
+import { createClient } from "@/utils/supabase/server";
+import {
+  LoginButton,
+  ProfileButton,
+  LogoutButton,
+} from "@/components/common/buttons.component";
 
-import { User } from "@/components/common/User";
-import { useSession } from "next-auth/react";
+export default async function Page() {
+  const supabase = await createClient();
 
-export default function Page() {
-  const { data: session } = useSession();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <main>
       <div>
-        <h1>Welcome, {session?.user?.name ?? "Guest"}</h1>
+        <h1>Welcome, {user?.email} </h1>
+        {user ? (
+          <>
+            <ProfileButton />
+            <LogoutButton />
+          </>
+        ) : (
+          <>
+            <LoginButton />
+          </>
+        )}
       </div>
-      <User />
     </main>
   );
 }
