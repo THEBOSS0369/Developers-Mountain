@@ -55,6 +55,7 @@ const Header = () => {
           {user ? (
             <>
               <ProfileButton />
+              <LogoutButton />
             </>
           ) : (
             <LoginButton />

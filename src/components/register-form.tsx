@@ -1,26 +1,24 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertCircle } from "lucide-react";
+import { signup } from "../app/login/action";
 
 interface RegisterFormProps extends React.ComponentPropsWithoutRef<"form"> {
   className?: string;
 }
 
 export function RegisterForm({ className, ...props }: RegisterFormProps) {
-  const router = useRouter();
   const name = useRef("");
   const email = useRef("");
   const password = useRef("");
   const [nameError, setNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const validateName = (value: string) => {
     if (!value) {
@@ -64,7 +62,6 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitError(null);
 
     const isNameValid = validateName(name.current);
     const isEmailValid = validateEmail(email.current);
@@ -74,30 +71,13 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
       return;
     }
 
-    try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name.current,
-          email: email.current,
-          password: password.current,
-        }),
-      });
+    // Call the signup server action
+    const formData = new FormData();
+    formData.append("name", name.current);
+    formData.append("email", email.current);
+    formData.append("password", password.current);
 
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message);
-      }
-
-      router.push("/api/auth/signin");
-    } catch (error) {
-      setSubmitError(
-        error instanceof Error ? error.message : "Registration failed"
-      );
-    }
+    await signup(formData);
   };
 
   return (
@@ -115,12 +95,6 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
         </p>
       </div>
 
-      {submitError && (
-        <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded">
-          {submitError}
-        </div>
-      )}
-
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="name" className="text-sm text-white">
@@ -129,6 +103,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
           <div className="relative">
             <Input
               id="name"
+              name="name"
               type="text"
               placeholder="Enter your name"
               className={cn(
@@ -157,6 +132,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
           <div className="relative">
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="you@example.com"
               className={cn(
@@ -185,6 +161,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
           <div className="relative">
             <Input
               id="password"
+              name="password"
               type="password"
               placeholder="••••••••"
               className={cn(

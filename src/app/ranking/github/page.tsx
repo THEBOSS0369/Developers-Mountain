@@ -1,7 +1,11 @@
-import React from "react";
+import { createClient } from "@/utils/supabase/server";
 
-const page = () => {
-  return <div>uoo</div>;
-};
+export default async function Account() {
+  const supabase = await createClient();
 
-export default page;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return <div>Hello {user?.email}</div>;
+}
