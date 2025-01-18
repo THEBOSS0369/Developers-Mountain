@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { getPublicImageURL } from "@/utils/supabase/public-url";
 import Link from "next/link";
-import Image from "next/image"; // Import Next.js Image component
-import Avatar from "./avatar";
+import Image from "next/image";
 
 export default async function Account() {
   const supabase = await createClient();
@@ -83,6 +82,16 @@ export default async function Account() {
               </a>
             </div>
           )}
+        </div>
+        <div>
+          <form action="/auth/signout" method="post">
+            <button
+              className="w-full p-2 text-white bg-red-600 rounded hover:bg-red-700 transition duration-200"
+              type="submit"
+            >
+              Sign out
+            </button>
+          </form>
         </div>
       </div>
     </div>

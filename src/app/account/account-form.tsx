@@ -146,17 +146,6 @@ export default function AccountForm({ user }: { user: User | null }) {
           {loading ? "Loading ..." : "Update"}
         </button>
       </div>
-
-      <div>
-        <form action="/auth/signout" method="post">
-          <button
-            className="w-full p-2 text-white bg-red-600 rounded hover:bg-red-700 transition duration-200"
-            type="submit"
-          >
-            Sign out
-          </button>
-        </form>
-      </div>
     </div>
   );
 }

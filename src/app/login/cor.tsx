@@ -1,6 +1,6 @@
 import { signup, login } from "./action";
 
-export default function LoginPage() {
+export default function loginfunction() {
   return (
     <form>
       <label htmlFor="email">Email:</label>

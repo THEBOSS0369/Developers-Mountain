@@ -13,25 +13,10 @@ interface RegisterFormProps extends React.ComponentPropsWithoutRef<"form"> {
 }
 
 export function RegisterForm({ className, ...props }: RegisterFormProps) {
-  const name = useRef("");
   const email = useRef("");
   const password = useRef("");
-  const [nameError, setNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-
-  const validateName = (value: string) => {
-    if (!value) {
-      setNameError("Name is required");
-      return false;
-    }
-    if (value.length < 2) {
-      setNameError("Name must be at least 2 characters");
-      return false;
-    }
-    setNameError(null);
-    return true;
-  };
 
   const validateEmail = (value: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -63,17 +48,15 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const isNameValid = validateName(name.current);
     const isEmailValid = validateEmail(email.current);
     const isPasswordValid = validatePassword(password.current);
 
-    if (!isNameValid || !isEmailValid || !isPasswordValid) {
+    if (!isEmailValid || !isPasswordValid) {
       return;
     }
 
     // Call the signup server action
     const formData = new FormData();
-    formData.append("name", name.current);
     formData.append("email", email.current);
     formData.append("password", password.current);
 
@@ -81,11 +64,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className={cn("flex flex-col gap-6 w-full", className)}
-      {...props}
-    >
+    <form className={cn("flex flex-col gap-6 w-full", className)} {...props}>
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-semibold text-white">
           Create your account
@@ -96,35 +75,6 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
       </div>
 
       <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="name" className="text-sm text-white">
-            Name
-          </Label>
-          <div className="relative">
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Enter your name"
-              className={cn(
-                "bg-[#1A1A1A] border border-[#333333] text-white h-12 pl-4 pr-10",
-                "placeholder:text-[#4B4B4B] focus:border-[#666666] focus:ring-0",
-                nameError && "border-red-500 focus:border-red-500"
-              )}
-              onChange={(e) => {
-                name.current = e.target.value;
-                validateName(e.target.value);
-              }}
-            />
-            {nameError && (
-              <div className="absolute right-3 top-3 text-red-500">
-                <AlertCircle size={24} />
-              </div>
-            )}
-          </div>
-          {nameError && <p className="text-red-500 text-sm">{nameError}</p>}
-        </div>
-
         <div className="space-y-2">
           <Label htmlFor="email" className="text-sm text-white">
             Email
@@ -186,7 +136,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
         </div>
 
         <Button
-          type="submit"
+          formAction={signup}
           className="w-full bg-neutral-700 border-[#333333] focus:border-[#666666] hover:bg-neutral-600 text-white h-12"
         >
           Create Account
