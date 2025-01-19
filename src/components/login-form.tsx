@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { signInWithGithub } from "../app/login/action";
 
 export function LoginForm({
   className,
@@ -22,6 +23,7 @@ export function LoginForm({
         <Button
           type="button"
           variant="outline"
+          onClick={signInWithGithub}
           className="w-full bg-[#1A1A1A] border border-[#333333] text-white hover:bg-[#242424] h-12"
         >
           <svg
