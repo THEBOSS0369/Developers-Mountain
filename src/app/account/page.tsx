@@ -13,7 +13,7 @@ export default async function Account() {
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("full_name, username, website, avatar_url")
+    .select("full_name, username, website, avatar_url, github_username")
     .eq("id", user?.id)
     .single();
 
@@ -66,6 +66,12 @@ export default async function Account() {
             <div>
               <label className="block text-sm text-gray-400">Username</label>
               <p className="text-white">{profile.username}</p>
+            </div>
+          )}
+
+          {profile?.github_username && (
+            <div>
+              <p>{profile?.github_username}</p>
             </div>
           )}
 
