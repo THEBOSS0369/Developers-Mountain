@@ -3,6 +3,11 @@ import { createClient } from "@/utils/supabase/server";
 import { getPublicImageURL } from "@/utils/supabase/public-url";
 import Link from "next/link";
 import Image from "next/image";
+import { GitHubUser } from "@/types/github";
+import { fetchGitHubData } from "@/lib/github";
+import { ProfileCard } from "@/components/github/ProfileCard";
+import { RepositoryList } from "@/components/github/RepositoryList";
+import { PullRequestList } from "@/components/github/PullRequestList";
 
 export default async function Account() {
   const supabase = await createClient();
@@ -23,6 +28,18 @@ export default async function Account() {
 
   // Get the public URL for the avatar
   const avatarUrl = getPublicImageURL("avatars", profile?.avatar_url);
+
+  const githubUser: GitHubUser = {
+    name: user?.user_metadata?.name || "User",
+    email: user?.user_metadata?.email || "",
+    avatar_url: user?.user_metadata?.avatar_url || "",
+    user_name: user?.user_metadata?.user_name || "",
+  };
+
+  let githubData;
+  if (githubUser.user_name) {
+    githubData = await fetchGitHubData(githubUser.user_name);
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">
@@ -89,6 +106,14 @@ export default async function Account() {
             </div>
           )}
         </div>
+        {/* Github data verifictaion */}
+        <ProfileCard user={githubUser} />
+        {githubData && (
+          <>
+            <RepositoryList repositories={githubData.repos} />
+            <PullRequestList pullRequests={githubData.prs} />
+          </>
+        )}
         <div>
           <form action="/auth/signout" method="post">
             <button
