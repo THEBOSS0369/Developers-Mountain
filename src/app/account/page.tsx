@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { getPublicImageURL } from "@/utils/supabase/public-url";
 import Link from "next/link";
-import Image from "next/image"; // Import Next.js Image component
-import Avatar from "./avatar";
+import Image from "next/image";
 
 export default async function Account() {
   const supabase = await createClient();
@@ -14,7 +13,7 @@ export default async function Account() {
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("full_name, username, website, avatar_url")
+    .select("full_name, username, website, avatar_url, github_username")
     .eq("id", user?.id)
     .single();
 
@@ -70,6 +69,12 @@ export default async function Account() {
             </div>
           )}
 
+          {profile?.github_username && (
+            <div>
+              <p>{profile?.github_username}</p>
+            </div>
+          )}
+
           {profile?.website && (
             <div>
               <label className="block text-sm text-gray-400">Website</label>
@@ -83,6 +88,16 @@ export default async function Account() {
               </a>
             </div>
           )}
+        </div>
+        <div>
+          <form action="/auth/signout" method="post">
+            <button
+              className="w-full p-2 text-white bg-red-600 rounded hover:bg-red-700 transition duration-200"
+              type="submit"
+            >
+              Sign out
+            </button>
+          </form>
         </div>
       </div>
     </div>
