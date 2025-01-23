@@ -1,21 +1,14 @@
+// This file contains all the logic which i have divided in multiple files this was the first basic logic
+// to calculate the scores. More changes will be done on different files.
 import { CommitFile, PullRequest } from "@/types/github";
 import { PRScore, CodeQualityIssue, ProjectConfig } from "@/types/scoring";
 
 // Default configuration that can be overridden per project
 const DEFAULT_CONFIG: ProjectConfig = {
-  weights: {
-    loc: 0.4,
-    complexity: 0.3,
-    files: 0.2,
-    impact: 0.1,
-  },
+  weights: { loc: 0.4, complexity: 0.3, files: 0.2, impact: 0.1 },
   thresholds: {
     // Derived from statistical analysis of repository history
-    loc: {
-      min: 50,
-      max: 500,
-      optimal: 275,
-    },
+    loc: { min: 50, max: 500, optimal: 275 },
     files: {
       max: 10,
       penalty: 5, // Per file penalty after max

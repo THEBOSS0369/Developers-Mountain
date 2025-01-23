@@ -7,6 +7,7 @@ export interface PRScore {
     impactScore: number;
     qualityIssues: CodeQualityIssue[];
   };
+  config: ProjectConfig;
 }
 
 export interface CodeQualityIssue {

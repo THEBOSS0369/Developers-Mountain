@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PullRequest, CommitFile } from "@/types/github";
 import { PRScore } from "@/types/scoring";
-import { calculatePRScore } from "@/lib/scoring";
+import { calculatePRScore } from "@/services/scoreCalculation";
 import { fetchCommitFiles } from "@/lib/github";
 
 interface PullRequestListProps {
@@ -19,6 +19,7 @@ interface PRWithScore {
 export function PullRequestList({ pullRequests }: PullRequestListProps) {
   const [prsWithScores, setPrsWithScores] = useState<PRWithScore[]>([]);
   const [loading, setLoading] = useState(true);
+  const [averageScore, setAverageScore] = useState<number | null>(null);
 
   useEffect(() => {
     const loadScores = async () => {
@@ -40,7 +41,19 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
           return { pr, score: null, files: [] };
         })
       );
+
+      // Calculate average score
+      const validScores = scoredPRs.filter((prScore) => prScore.score !== null);
+      const avgScore =
+        validScores.length > 0
+          ? validScores.reduce(
+              (sum, prScore) => sum + (prScore.score?.total || 0),
+              0
+            ) / validScores.length
+          : null;
+
       setPrsWithScores(scoredPRs);
+      setAverageScore(avgScore);
       setLoading(false);
     };
 
@@ -115,7 +128,17 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recent PR&apos;s</CardTitle>
+        <div className="flex justify-between items-center">
+          <CardTitle>Recent PR&apos;s</CardTitle>
+          {averageScore !== null && (
+            <div className="text-sm text-gray-600">
+              Avg Score:{" "}
+              <span className="font-bold text-blue-600">
+                {averageScore.toFixed(1)}
+              </span>
+            </div>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-8">
