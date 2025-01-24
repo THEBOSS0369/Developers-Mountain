@@ -12,13 +12,14 @@ export default function AccountForm({ user }: { user: User | null }) {
   const [username, setUsername] = useState<string | null>(null);
   const [website, setWebsite] = useState<string | null>(null);
   const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+  const [quality, setQuality] = useState<string | null>(null);
 
   const getProfile = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error, status } = await supabase
         .from("profiles")
-        .select(`full_name, username, website, avatar_url`)
+        .select(`full_name, username, website, avatar_url, quality`)
         .eq("id", user?.id)
         .single();
 
@@ -32,6 +33,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         setUsername(data.username);
         setWebsite(data.website);
         setAvatarUrl(data.avatar_url);
+        setQuality(data.quality);
       }
     } catch (error) {
       alert("Error loading user data!");
@@ -53,6 +55,7 @@ export default function AccountForm({ user }: { user: User | null }) {
     fullname: string | null;
     website: string | null;
     avatar_url: string | null;
+    quality: string | null;
   }) {
     try {
       setLoading(true);
@@ -62,6 +65,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         username,
         website,
         avatar_url,
+        quality,
         updated_at: new Date().toISOString(),
       });
       if (error) throw error;
@@ -81,7 +85,13 @@ export default function AccountForm({ user }: { user: User | null }) {
         size={150}
         onUpload={(url) => {
           setAvatarUrl(url);
-          updateProfile({ fullname, username, website, avatar_url: url });
+          updateProfile({
+            fullname,
+            username,
+            website,
+            avatar_url: url,
+            quality,
+          });
         }}
       />
       <div className="mb-4">
@@ -121,6 +131,18 @@ export default function AccountForm({ user }: { user: User | null }) {
         />
       </div>
       <div className="mb-4">
+        <label htmlFor="quality" className="block mb-1 text-gray-300">
+          Quality
+        </label>
+        <input
+          id="quality"
+          type="text"
+          value={quality || ""}
+          onChange={(e) => setQuality(e.target.value)}
+          className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-purple-500"
+        />
+      </div>
+      <div className="mb-4">
         <label htmlFor="website" className="block mb-1 text-gray-300">
           Website
         </label>
@@ -139,7 +161,7 @@ export default function AccountForm({ user }: { user: User | null }) {
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
           onClick={() =>
-            updateProfile({ fullname, username, website, avatar_url })
+            updateProfile({ fullname, username, website, avatar_url, quality })
           }
           disabled={loading}
         >

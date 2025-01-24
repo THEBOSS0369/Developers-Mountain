@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PullRequest, CommitFile } from "@/types/github";
 import { PRScore } from "@/types/scoring";
-import { calculatePRScore } from "@/lib/scoring";
+import { calculatePRScore } from "@/services/scoreCalculation";
 import { fetchCommitFiles } from "@/lib/github";
 
 interface PullRequestListProps {
@@ -17,11 +19,27 @@ interface PRWithScore {
 }
 
 export function PullRequestList({ pullRequests }: PullRequestListProps) {
+  const supabase = createClient();
+  const [user, setUser] = useState<User | null>(null);
   const [prsWithScores, setPrsWithScores] = useState<PRWithScore[]>([]);
   const [loading, setLoading] = useState(true);
+  const [averageScore, setAverageScore] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const loadScores = async () => {
+      if (!user) return;
+
       const scoredPRs = await Promise.all(
         pullRequests.map(async (pr) => {
           if (pr.merged_at && pr.merge_commit_sha && pr.repository?.full_name) {
@@ -40,12 +58,37 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
           return { pr, score: null, files: [] };
         })
       );
+
+      const validScores = scoredPRs.filter((prScore) => prScore.score !== null);
+      const avgScore =
+        validScores.length > 0
+          ? validScores.reduce(
+              (sum, prScore) => sum + (prScore.score?.total || 0),
+              0
+            ) / validScores.length
+          : null;
+
       setPrsWithScores(scoredPRs);
+      setAverageScore(avgScore);
+
+      if (avgScore !== null) {
+        try {
+          const { error } = await supabase
+            .from("profiles")
+            .update({ scores: avgScore })
+            .eq("id", user.id);
+
+          if (error) throw error;
+        } catch (error) {
+          console.error("Error updating score:", error);
+        }
+      }
+
       setLoading(false);
     };
 
     loadScores();
-  }, [pullRequests]);
+  }, [pullRequests, user]);
 
   const ScoreDisplay = ({ score }: { score: PRScore }) => (
     <div className="mt-4 bg-gray-50 p-4 rounded-lg">
@@ -115,7 +158,17 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recent PR&apos;s</CardTitle>
+        <div className="flex justify-between items-center">
+          <CardTitle>Recent PR&apos;s</CardTitle>
+          {averageScore !== null && (
+            <div className="text-sm text-gray-600">
+              Avg Score:{" "}
+              <span className="font-bold text-blue-600">
+                {averageScore.toFixed(1)}
+              </span>
+            </div>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-8">
