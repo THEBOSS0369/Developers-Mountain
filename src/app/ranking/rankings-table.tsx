@@ -8,6 +8,7 @@ interface Player {
   username: string;
   full_name: string | null;
   avatar_url: string | null;
+  scores: string | null;
 }
 
 interface RankingsTableProps {
@@ -18,9 +19,10 @@ const RankingsTable = ({ players }: RankingsTableProps) => {
   return (
     <div className="w-full bg-[#121211]">
       {/* Table Header */}
-      <div className="grid grid-cols-2 px-4 py-2 border-b border-[#2D2D2D] text-gray-400">
+      <div className="grid grid-cols-4 px-4 py-2 border-b border-[#2D2D2D] text-gray-400">
         <div>Rank</div>
         <div>Player</div>
+        <div>Github Scores</div>
       </div>
 
       {/* Table Body */}
@@ -28,7 +30,7 @@ const RankingsTable = ({ players }: RankingsTableProps) => {
         {players.map((player, index) => (
           <div
             key={player.id}
-            className="grid grid-cols-2 px-4 py-3 hover:bg-[#2D2D2D] transition-colors"
+            className="grid grid-cols-4 px-4 py-3 hover:bg-[#2D2D2D] transition-colors"
           >
             {/* Rank Column */}
             <div className="flex items-center">
@@ -59,6 +61,13 @@ const RankingsTable = ({ players }: RankingsTableProps) => {
                   </span>
                 )}
               </div>
+            </div>
+
+            {/* Github Scores Column */}
+            <div className="flex flex-col">
+              <span className="text-white">
+                {player.scores ? player.scores : "No scores yet"}
+              </span>
             </div>
           </div>
         ))}

@@ -7,34 +7,160 @@ body {
     sans-serif;
 }
 
-/* <uniquifier>: Use a unique and descriptive class name
-<weight>: Use a value from 100 to 900 */
-
-.geologica-fonts {
-  font-family: "Geologica", serif;
-  font-optical-sizing: auto;
-  font-weight: 900;
+.be-vietnam-pro-thin {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 100;
   font-style: normal;
-  font-variation-settings: "slnt" 0, "CRSV" 0, "SHRP" 0;
 }
 
-/* Font style for the menu bar */
-.menu-bar {
-  font-family: "Circular", custom-font, "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-  font-weight: 550; /* Medium weight for the menu bar */
+.be-vietnam-pro-extralight {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 200;
+  font-style: normal;
 }
 
-.menu-bar-head {
-  font-family: "Circular", custom-font, "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-  font-weight: 100; /* Medium weight for the menu bar */
+.be-vietnam-pro-light {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 300;
+  font-style: normal;
 }
 
 .be-vietnam-pro-regular {
   font-family: "Be Vietnam Pro", serif;
   font-weight: 400;
   font-style: normal;
+}
+
+.be-vietnam-pro-medium {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.be-vietnam-pro-semibold {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.be-vietnam-pro-bold {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.be-vietnam-pro-extrabold {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.be-vietnam-pro-black {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.be-vietnam-pro-thin-italic {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.be-vietnam-pro-extralight-italic {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.be-vietnam-pro-light-italic {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.be-vietnam-pro-regular-italic {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.be-vietnam-pro-medium-italic {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.be-vietnam-pro-semibold-italic {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.be-vietnam-pro-bold-italic {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.be-vietnam-pro-extrabold-italic {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.be-vietnam-pro-black-italic {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Archivo-Black";
+  src: url("/fonts/Archivo-Black.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+.test-Font {
+  font-family: "Archivo-Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* <uniquifier>: Use a unique and descriptive class name
+<weight>: Use a value from 100 to 900 */
+
+/* .geologica-fonts {
+  font-family: "Geologica", serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings: "slnt" 0, "CRSV" 0, "SHRP" 0;
+} */
+
+/* Font style for the menu bar */
+/* .menu-bar {
+  font-family: "Circular", custom-font, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  font-weight: 550;
+}
+
+.menu-bar-head {
+  font-family: "Circular", custom-font, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  font-weight: 100; }
+
+.be-vietnam-pro-regular {
+  font-family: "Be Vietnam Pro", serif;
+  font-weight: 400;
+  font-style: normal;
+} */
+
+.navigation-menu-link {
+  font-size: 1.5rem; /* Adjust the font size as needed */
+  font-weight: bold; /* Apply bold font weight */
+  color: black; /* Set the text color to white */
 }
 
 @layer base {
