@@ -1,13 +1,15 @@
 import { createClient } from "@/utils/supabase/server";
 import { getPublicImageURL } from "@/utils/supabase/public-url";
 import RankingsPageClient from "./ranking-page-client";
+import { Divide } from "lucide-react";
 
 export default async function RankingsPage() {
   const supabase = await createClient();
 
   const { data: profiles, error } = await supabase
     .from("profiles")
-    .select("id, username, full_name, avatar_url");
+    .select("id, username, full_name, avatar_url, scores")
+    .order("scores", { ascending: false });
 
   if (error) {
     console.error("Error fetching profiles:", error);
@@ -22,5 +24,9 @@ export default async function RankingsPage() {
       : null,
   }));
 
-  return <RankingsPageClient initialPlayers={playersWithAvatars} />;
+  return (
+    <div>
+      <RankingsPageClient initialPlayers={playersWithAvatars} />;
+    </div>
+  );
 }

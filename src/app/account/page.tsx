@@ -18,7 +18,7 @@ export default async function Account() {
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("full_name, username, website, avatar_url, github_username")
+    .select("full_name, username, website, avatar_url, github_username, scores")
     .eq("id", user?.id)
     .single();
 
@@ -71,6 +71,12 @@ export default async function Account() {
             <label className="block text-sm text-gray-400">Email</label>
             <p className="text-white">{user?.email}</p>
           </div>
+          {profile?.scores && (
+            <div>
+              <label htmlFor="">Scores</label>
+              <p>{profile?.scores}</p>
+            </div>
+          )}
 
           {profile?.full_name && (
             <div>

@@ -39,45 +39,15 @@ export default function NavigationMenuDemo() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        <NavigationMenuItem>
+        <NavigationMenuItem className="p-2">
           <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink>Home</NavigationMenuLink>
+            <NavigationMenuLink className="text-2xl">Home</NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        {/* <NavigationMenuItem>
-          <NavigationMenuTrigger>Dev Mountain</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <Link
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/"
-                  > */}
-        {/* <Icons.logo className="h-6 w-6" /> */}
-        {/* <div className="mb-2 mt-4 text-lg font-medium">
-                      Dev Mountain
-                    </div>
-                    <p className="text-sm leading-tight text-muted-foreground">
-                      Beautifully designed components built with Radix UI and
-                      Tailwind CSS.
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem> */}
         <NavigationMenuItem>
           <NavigationMenuTrigger>Ranking</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+            <ul className="grid w-[400px] custom-translucent-bg  gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[400px] ">
               {components.map((component) => (
                 <ListItem
                   key={component.title}
@@ -105,7 +75,8 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 p-3 leading-none no-underline outline-none transition-colors hover:bg-[#2D2D2D] hover:text-white rounded-lg m-1",
+            "block select-none space-y-1 p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700 hover:text-white rounded-lg m-1",
+            "text-lg font-bold text-stone-200",
             className
           )}
           {...props}

@@ -5,7 +5,7 @@ import NavigationMenuDemo from "./NavigationMenuDemo";
 import { type User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 
-const Header = () => {
+const Headercomp = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -66,4 +66,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Headercomp;
