@@ -28,99 +28,14 @@ const RankingPageClient = ({ initialPlayers }: RankingPageClientProps) => {
   return (
     <div className="min-h-screen bg-[#121211] text-white">
       {/* Header */}
-      <header className="flex items-center justify-between p-4 bg-[#121211] border-b border-[#2D2D2D]">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-            🏆
-          </div>
-          <h1 className="text-xl font-semibold">Players Trophies Ranking</h1>
-        </div>
-        <div className="flex gap-2">
-          <button className="px-4 py-2 bg-[#121211] border border-[#2D2D2D] hover:bg-[#2D2D2D] transition rounded-md">
-            CLANS RANKINGS
-          </button>
-          <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 transition rounded-md">
-            SHARE
-          </button>
-        </div>
-      </header>
-      {/* Filter Section */}
-      <div className="flex gap-4 p-4">
-        <select
-          className="flex-1 p-2 bg-[#121211] border border-[#2D2D2D] hover:bg-[#2D2D2D] transition text-white rounded-md cursor-pointer"
-          defaultValue="WORLDWIDE"
-        >
-          <option>WORLDWIDE</option>
-          <option>LOCAL</option>
-        </select>
-        <select
-          className="flex-1 p-2 bg-[#121211] border border-[#2D2D2D] hover:bg-[#2D2D2D] transition text-white rounded-md cursor-pointer"
-          defaultValue="ALL TOWN HALLS"
-        >
-          <option>ALL TOWN HALLS</option>
-          <option>TOWN HALL 15</option>
-          <option>TOWN HALL 14</option>
-        </select>
-      </div>
+      <header className="flex items-center justify-between p-4 bg-[#121211] border-t border-[#2D2D2D]"></header>
 
       {/* Main Navigation */}
-      <nav className="flex justify-center gap-8 p-4 border-b border-[#2D2D2D]">
-        {[
-          { id: "trophies", icon: "🏆", label: "TROPHIES" },
-          { id: "wars", icon: "⚔️", label: "WARS" },
-          { id: "multiplayer", icon: "👥", label: "MULTIPLAYER" },
-          { id: "social", icon: "🌐", label: "SOCIAL" },
-          { id: "singlePlayer", icon: "👤", label: "SINGLE PLAYER" },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as TabType)}
-            className={`flex flex-col items-center gap-2 transition ${
-              activeTab === tab.id ? "" : "opacity-60"
-            }`}
-          >
-            <div
-              className={`w-8 h-8 ${
-                activeTab === tab.id ? "bg-yellow-500" : "bg-[#2D2D2D]"
-              } rounded-full flex items-center justify-center`}
-            >
-              {tab.icon}
-            </div>
-            <span>{tab.label}</span>
-          </button>
-        ))}
-      </nav>
 
       {/* Sub Navigation */}
-      <nav className="flex justify-center gap-8 p-4 border-b border-[#2D2D2D]">
-        {[
-          { id: "trophies", icon: "🏆", label: "TROPHIES" },
-          { id: "builderBase", icon: "🏠", label: "BUILDER BASE TROPHIES" },
-          { id: "bestTrophies", icon: "🌟", label: "BEST TROPHIES" },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveSubTab(tab.id as SubTabType)}
-            className={`flex items-center gap-2 transition ${
-              activeSubTab === tab.id ? "text-green-500" : "opacity-60"
-            }`}
-          >
-            <div
-              className={`w-6 h-6 ${
-                activeSubTab === tab.id
-                  ? "bg-green-500 bg-opacity-20"
-                  : "bg-[#2D2D2D]"
-              } rounded-full flex items-center justify-center`}
-            >
-              {tab.icon}
-            </div>
-            <span>{tab.label}</span>
-          </button>
-        ))}
-      </nav>
 
       {/* Table Section */}
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto ">
         <RankingsTable players={initialPlayers} />
       </div>
 
@@ -136,7 +51,7 @@ const RankingPageClient = ({ initialPlayers }: RankingPageClientProps) => {
           </button>
           <span>{`${(page - 1) * itemsPerPage + 1}-${Math.min(
             page * itemsPerPage,
-            totalItems
+            totalItems,
           )} / ${totalItems}`}</span>
           <button
             onClick={handleNextPage}

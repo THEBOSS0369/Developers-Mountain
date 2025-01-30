@@ -2,6 +2,7 @@
 
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export const LoginButton = () => {
   return (
@@ -33,5 +34,11 @@ export const RegisterButton = () => {
 };
 
 export const ProfileButton = () => {
-  return <Link href="/account">Account</Link>;
+  return (
+    <Link href="/account">
+      <button className="group inline-flex h-13 w-max items-center justify-center rounded-sm px-4 py-2 text-lg font-[550] text-stone-700 transition-[background-color] duration-300 ease-in-out bg-white hover:bg-neutral-700/80 hover:text-white  focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral-700/80">
+        My Profile
+      </button>
+    </Link>
+  );
 };

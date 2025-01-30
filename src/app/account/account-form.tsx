@@ -13,13 +13,17 @@ export default function AccountForm({ user }: { user: User | null }) {
   const [website, setWebsite] = useState<string | null>(null);
   const [avatar_url, setAvatarUrl] = useState<string | null>(null);
   const [quality, setQuality] = useState<string | null>(null);
+  const [mainlanguage, setMainLanguage] = useState<string | null>(null);
+  const [secondlanguage, setSecondLanguage] = useState<string | null>(null);
 
   const getProfile = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error, status } = await supabase
         .from("profiles")
-        .select(`full_name, username, website, avatar_url, quality`)
+        .select(
+          `fullname, username, website, avatar_url, quality, mainlanguage, secondlanguage`,
+        )
         .eq("id", user?.id)
         .single();
 
@@ -34,6 +38,8 @@ export default function AccountForm({ user }: { user: User | null }) {
         setWebsite(data.website);
         setAvatarUrl(data.avatar_url);
         setQuality(data.quality);
+        setMainLanguage(data.mainlanguage);
+        setSecondLanguage(data.secondlanguage);
       }
     } catch (error) {
       alert("Error loading user data!");
@@ -56,6 +62,8 @@ export default function AccountForm({ user }: { user: User | null }) {
     website: string | null;
     avatar_url: string | null;
     quality: string | null;
+    mainlanguage: string | null;
+    secondlanguage: string | null;
   }) {
     try {
       setLoading(true);
@@ -66,6 +74,8 @@ export default function AccountForm({ user }: { user: User | null }) {
         website,
         avatar_url,
         quality,
+        mainlanguage,
+        secondlanguage,
         updated_at: new Date().toISOString(),
       });
       if (error) throw error;
@@ -91,6 +101,8 @@ export default function AccountForm({ user }: { user: User | null }) {
             website,
             avatar_url: url,
             quality,
+            mainlanguage,
+            secondlanguage,
           });
         }}
       />
@@ -156,12 +168,46 @@ export default function AccountForm({ user }: { user: User | null }) {
       </div>
 
       <div className="mb-4">
+        <label htmlFor="website" className="block mb-1 text-gray-300">
+          Main language
+        </label>
+        <input
+          id="mainlanguage"
+          type="text"
+          value={mainlanguage || ""}
+          onChange={(e) => setMainLanguage(e.target.value)}
+          className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-purple-500"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="website" className="block mb-1 text-gray-300">
+          Second language
+        </label>
+        <input
+          id="secondlanguage"
+          type="text"
+          value={secondlanguage || ""}
+          onChange={(e) => setSecondLanguage(e.target.value)}
+          className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-purple-500"
+        />
+      </div>
+
+      <div className="mb-4">
         <button
           className={`w-full p-2 text-white bg-purple-600 rounded hover:bg-purple-700 transition duration-200 ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
           onClick={() =>
-            updateProfile({ fullname, username, website, avatar_url, quality })
+            updateProfile({
+              fullname,
+              username,
+              website,
+              avatar_url,
+              quality,
+              mainlanguage,
+              secondlanguage,
+            })
           }
           disabled={loading}
         >

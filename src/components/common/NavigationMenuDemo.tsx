@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 
+import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 // import { Icons } from "@/components/icons";
 import {
@@ -47,7 +48,7 @@ export default function NavigationMenuDemo() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Ranking</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] custom-translucent-bg  gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[400px] ">
+            <ul className="grid w-[400px] p-1 md:w-[500px] md:grid-cols-1 lg:w-[450px] ">
               {components.map((component) => (
                 <ListItem
                   key={component.title}
@@ -75,16 +76,19 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700 hover:text-white rounded-lg m-1",
+            "block select-none space-y-1 p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700/40 hover:text-white rounded-lg m-1",
             "text-lg font-bold text-stone-200",
             className
           )}
           {...props}
         >
-          <div className="text-sm  font-medium leading-none text-stone-200">
-            {title}
+          <div className="flex items-center justify-between">
+            <div className="text-md font-semibold leading-none text-gray-200">
+              {title}
+            </div>
+            <ChevronRight className="w-4 h-4 text-neutral-500" />
           </div>
-          <p className="line-clamp-2  text-sm leading-snug text-stone-400">
+          <p className="line-clamp-2 max-w-sm text-sm font-semibold  leading-snug text-neutral-500">
             {children}
           </p>
         </a>

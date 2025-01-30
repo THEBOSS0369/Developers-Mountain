@@ -7,6 +7,7 @@ import { type User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 import { MenubarDemo } from "./Menubar";
 import DropdownMenu from "./DropDownMenu";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -47,7 +48,6 @@ const Header = () => {
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center">
           <NavigationMenuDemo />
-          <DropdownMenu />
         </div>
 
         {/* <div className="flex-1 max-w-2xl mx-6">
