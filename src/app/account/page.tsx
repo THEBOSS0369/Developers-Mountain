@@ -18,7 +18,9 @@ export default async function Account() {
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("full_name, username, website, avatar_url, github_username, scores")
+    .select(
+      "full_name, username, website, avatar_url, github_username, scores, mainlanguage, secondlanguage",
+    )
     .eq("id", user?.id)
     .single();
 
@@ -95,6 +97,24 @@ export default async function Account() {
           {profile?.github_username && (
             <div>
               <p>{profile?.github_username}</p>
+            </div>
+          )}
+
+          {profile?.mainlanguage && (
+            <div>
+              <label className="block text-sm text-gray-400">
+                mainlanguage
+              </label>
+              <p>{profile?.mainlanguage}</p>
+            </div>
+          )}
+
+          {profile?.secondlanguage && (
+            <div>
+              <label className="block text-sm text-gray-400">
+                Second language
+              </label>
+              <p>{profile?.secondlanguage}</p>
             </div>
           )}
 
