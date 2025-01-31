@@ -83,7 +83,7 @@ export default async function Account() {
           {profile?.full_name && (
             <div>
               <label className="block text-sm text-gray-400">Full Name</label>
-              <p className="text-white">{profile.full_name}</p>
+              <p className="text-white">{profile?.full_name}</p>
             </div>
           )}
 

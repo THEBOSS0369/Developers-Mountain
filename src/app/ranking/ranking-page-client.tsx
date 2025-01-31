@@ -16,6 +16,8 @@ const RankingPageClient = ({ initialPlayers }: RankingPageClientProps) => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 50;
   const totalItems = 500;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showNoResults, setShowNoResults] = useState(false);
 
   const handlePrevPage = () => {
     if (page > 1) setPage(page - 1);
@@ -23,6 +25,22 @@ const RankingPageClient = ({ initialPlayers }: RankingPageClientProps) => {
 
   const handleNextPage = () => {
     if (page * itemsPerPage < totalItems) setPage(page + 1);
+  };
+
+  const filteredPlayers = initialPlayers.filter((player) => {
+    const searchText = searchTerm.toLowerCase();
+    return (
+      player.username.toLowerCase().includes(searchText) ||
+      (player.full_name &&
+        player.full_name.toLowerCase().includes(searchText)) ||
+      player.id.toLowerCase().includes(searchText)
+    );
+  });
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === "Enter") {
+      setShowNoResults(filteredPlayers.length === 0);
+    }
   };
 
   return (
@@ -40,7 +58,7 @@ const RankingPageClient = ({ initialPlayers }: RankingPageClientProps) => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-between items-center p-4 bg-[#121211] border-t border-[#2D2D2D]">
+      <div className="flex justify-between items-center p-8 py-8 bg-[#121211] border-t border-[#2D2D2D]">
         <div className="flex items-center gap-2">
           <button
             onClick={handlePrevPage}
