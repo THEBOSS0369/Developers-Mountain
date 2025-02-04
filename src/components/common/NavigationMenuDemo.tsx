@@ -24,13 +24,13 @@ const components: { title: string; href: string; description: string }[] = [
   },
   {
     title: "GitHub",
-    href: "/ranking/github",
+    href: "/ranking?tag=Github",
     description:
       "For sighted users to preview content available behind a link.",
   },
   {
     title: "Leetcode",
-    href: "ranking/leetcode",
+    href: "ranking?tag=Leetcode",
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
@@ -78,7 +78,7 @@ const ListItem = React.forwardRef<
           className={cn(
             "block select-none space-y-1 p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700/40 hover:text-white rounded-lg m-1",
             "text-lg font-bold text-stone-200",
-            className
+            className,
           )}
           {...props}
         >

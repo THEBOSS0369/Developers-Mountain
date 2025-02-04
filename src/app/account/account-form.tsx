@@ -15,6 +15,7 @@ export default function AccountForm({ user }: { user: User | null }) {
   const [quality, setQuality] = useState<string | null>(null);
   const [mainlanguage, setMainLanguage] = useState<string | null>(null);
   const [secondlanguage, setSecondLanguage] = useState<string | null>(null);
+  const [leetcodeusername, setLeetcodeusername] = useState<string | null>(null);
 
   const getProfile = useCallback(async () => {
     try {
@@ -22,7 +23,7 @@ export default function AccountForm({ user }: { user: User | null }) {
       const { data, error, status } = await supabase
         .from("profiles")
         .select(
-          `fullname, username, website, avatar_url, quality, mainlanguage, secondlanguage`,
+          `full_name, username, website, avatar_url, quality, mainlanguage, secondlanguage, leetcodeusername`,
         )
         .eq("id", user?.id)
         .single();
@@ -40,6 +41,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         setQuality(data.quality);
         setMainLanguage(data.mainlanguage);
         setSecondLanguage(data.secondlanguage);
+        setLeetcodeusername(data.leetcodeusername);
       }
     } catch (error) {
       alert("Error loading user data!");
@@ -64,6 +66,7 @@ export default function AccountForm({ user }: { user: User | null }) {
     quality: string | null;
     mainlanguage: string | null;
     secondlanguage: string | null;
+    leetcodeusername: string | null;
   }) {
     try {
       setLoading(true);
@@ -76,6 +79,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         quality,
         mainlanguage,
         secondlanguage,
+        leetcodeusername,
         updated_at: new Date().toISOString(),
       });
       if (error) throw error;
@@ -139,6 +143,18 @@ export default function AccountForm({ user }: { user: User | null }) {
           type="text"
           value={username || ""}
           onChange={(e) => setUsername(e.target.value)}
+          className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-purple-500"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="leetcode" className="block mb-1 text-gray-300">
+          LeetCode
+        </label>
+        <input
+          id="username"
+          type="text"
+          value={leetcodeusername || ""}
+          onChange={(e) => setLeetcodeusername(e.target.value)}
           className="w-full p-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-purple-500"
         />
       </div>
@@ -207,6 +223,7 @@ export default function AccountForm({ user }: { user: User | null }) {
               quality,
               mainlanguage,
               secondlanguage,
+              leetcodeusername,
             })
           }
           disabled={loading}

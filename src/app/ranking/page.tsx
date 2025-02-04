@@ -3,6 +3,8 @@ import { getPublicImageURL } from "@/utils/supabase/public-url";
 import RankingsPageClient from "./ranking-page-client";
 import { Divide } from "lucide-react";
 import { Search } from "lucide-react";
+import SearchBarWithResults from "@/components/common/SearchBar";
+import SearchSection from "@/hooks/SearchSelection";
 
 export default async function RankingsPage() {
   const supabase = await createClient();
@@ -10,9 +12,13 @@ export default async function RankingsPage() {
   const { data: profiles, error } = await supabase
     .from("profiles")
     .select(
-      "id, username, full_name, avatar_url, scores, mainlanguage, secondlanguage",
+      "id, username, full_name, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername, leetcodescores",
     )
     .order("scores", { ascending: false });
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (error) {
     console.error("Error fetching profiles:", error);
@@ -56,30 +62,19 @@ export default async function RankingsPage() {
           </p>
 
           {/* Search Bar */}
-          {/* <p className="text-md md:text-lg font-medium text-stone-300 mb-2"> {/* Increased margin bottom from mb-8 to mb-16 */}
-          {/*   Search Developers by their Name */}
-          {/* </p> */}
-          <div className="flex w-full max-w-2xl mx-auto">
-            {" "}
-            {/* Increased max-width from max-w-md to max-w-2xl */}
-            <div className="relative w-full">
-              <input
-                type="email"
-                placeholder="Enter developer's name"
-                className="w-full px-6 py-4 text-lg bg-stone-600/20 text-white placeholder-gray-400 rounded-lg focus:outline-none hover:bg-stone-600/30 focus:bg-stone-600/30 focus:backdrop-blur-xl backdrop-blur-xl"
-              />{" "}
-              {/* Increased padding (px-6 py-4) and text size (text-lg) */}
-              <button className="absolute right-3 top-1/2 transform -translate-y-1/2 px-4 py-2.5  text-stone-700 rounded-md font-semibold bg-neutral-100 transition-colors text-base transition-[background-color] duration-300 ease-in-out  hover:text-white hover:bg-neutral-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral-700/80">
-                Search
-              </button>
-            </div>
-          </div>
+          <SearchSection
+            profiles={playersWithAvatars}
+            currentUserId={user?.id || ""}
+          />
         </div>
       </div>
 
       {/* Rankings Content */}
       <div className="mx-4 py-8">
-        <RankingsPageClient initialPlayers={playersWithAvatars} />
+        <RankingsPageClient
+          currentUserId={user?.id || ""}
+          initialPlayers={playersWithAvatars}
+        />
       </div>
     </div>
   );
