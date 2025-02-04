@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Search, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const SearchBarWithResults = ({
   profiles = [],
   onSelectUser = () => {},
+  currentUserId,
   placeholder = "Search developers by name",
 }) => {
   const [open, setOpen] = useState(false);
@@ -54,6 +56,15 @@ const SearchBarWithResults = ({
       profile?.username?.toLowerCase().includes(inputValue.toLowerCase()) ||
       profile?.full_name?.toLowerCase().includes(inputValue.toLowerCase()),
   );
+
+  const router = useRouter();
+  const handlePlayerClick = (playerId: string) => {
+    if (playerId === currentUserId) {
+      router.push("/account");
+    } else {
+      router.push(`/profile/${playerId}`);
+    }
+  };
 
   return (
     <div className="relative w-full max-w-2xl mx-auto">
@@ -110,10 +121,11 @@ const SearchBarWithResults = ({
                       key={profile.id}
                       onClick={() => {
                         onSelectUser(profile);
+                        handlePlayerClick(profile.id);
                         handleClose();
                         setInputValue("");
                       }}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-stone-300 hover:bg-stone-800/70 rounded-lg group"
+                      className={`w-full flex items-center gap-3 px-3 py-2 text-stone-300 hover:bg-stone-600/90 rounded-lg group ${profile.id === currentUserId ? "bg-stone-600/60" : ""}`}
                     >
                       {profile.avatar_url ? (
                         <img

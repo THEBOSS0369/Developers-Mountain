@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -10,6 +8,7 @@ interface Player {
   full_name: string | null;
   avatar_url: string | null;
   scores: string | null;
+  leetcodescores: string | null;
   mainlanguage: string | null;
   secondlanguage: string | null;
 }
@@ -17,28 +16,52 @@ interface Player {
 interface RankingsTableProps {
   players: Player[];
   currentUserId: string;
+  activeTagFromURL: string;
 }
 
-const RankingsTable = ({ players, currentUserId }: RankingsTableProps) => {
-  const [activeTag, setActiveTag] = useState("All");
+const RankingsTable = ({
+  players,
+  currentUserId,
+  activeTagFromURL,
+}: RankingsTableProps) => {
+  const [activeTag, setActiveTag] = useState(activeTagFromURL);
   const tagButtons = ["All", "Github", "Leetcode"];
   const [activeLanguage, setActiveLanguage] = useState("All Language");
-  const languageButtons = [
-    "All Language",
-    "Typescript",
-    "JavaScript",
-    "Python",
-    "C",
-    "Java",
-  ];
+  const languageButtons = ["All Language"];
 
-  const router = useRouter(); // Initialize Next.js router
+  const router = useRouter();
 
-  // Click handler for player profile
   const handlePlayerClick = (playerId: string) => {
-    // Redirect to the player's profile page
-    router.push(`/profile/${playerId}`);
+    if (playerId === currentUserId) {
+      router.push("/account");
+    } else {
+      router.push(`/profile/${playerId}`);
+    }
   };
+
+  // Function to determine which score to display based on active tag
+  const getDisplayScore = (player: Player) => {
+    switch (activeTag) {
+      case "Github":
+        return player.scores || "0";
+      case "Leetcode":
+        return player.leetcode_score || "0";
+      case "All":
+        // You can customize how you want to combine scores
+        const githubScore = parseInt(player.scores || "0");
+        const leetcodeScore = parseInt(player.leetcode_score || "0");
+        return (githubScore + leetcodeScore).toString();
+      default:
+        return "0";
+    }
+  };
+
+  // Sort players based on active tag
+  const sortedPlayers = [...players].sort((a, b) => {
+    const scoreA = parseInt(getDisplayScore(a));
+    const scoreB = parseInt(getDisplayScore(b));
+    return scoreB - scoreA;
+  });
 
   return (
     <div className="w-full bg-[#121211]">
@@ -83,17 +106,26 @@ const RankingsTable = ({ players, currentUserId }: RankingsTableProps) => {
       <div className="grid max-w-7xl mx-auto grid-cols-4 px-4 py-2 mt-12 border-b-[2px] border-[#2D2D2D] text-xl font-semibold text-neutral-400">
         <div className="text-center">Rank</div>
         <div className="text-center">Player</div>
-        <div className="text-center">Github</div>
+        <div className="text-center">{activeTag}</div>
         <div className="text-center">Languages</div>
       </div>
 
       {/* Table Body */}
       <div className="divide-y max-w-7xl mx-auto divide-[#2D2D2D]">
-        {players.map((player, index) => (
+        {sortedPlayers.map((player, index) => (
           <div
             key={player.id}
-            className="grid grid-cols-4 px-4 py-4 mx-[-12px] hover:bg-neutral-700/30 focus:backdrop-blur-xl rounded-lg transition-colors"
             onClick={() => handlePlayerClick(player.id)}
+            className={`grid grid-cols-4 px-4 py-4 mx-[-12px] hover:bg-neutral-700/30 focus:backdrop-blur-xl rounded-lg transition-colors cursor-pointer ${
+              player.id === currentUserId ? "bg-stone-600/30" : ""
+            }`}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                handlePlayerClick(player.id);
+              }
+            }}
           >
             {/* Rank Column */}
             <div className="flex items-center justify-center w-full">
@@ -108,28 +140,28 @@ const RankingsTable = ({ players, currentUserId }: RankingsTableProps) => {
                   alt="Profile"
                   width={48}
                   height={48}
-                  className="rounded-md object-cover cursor-pointer" // Add cursor pointer for better UX
+                  className="rounded-md object-cover"
                   priority
                 />
               ) : (
                 <div className="w-8 h-8 bg-gray-600 rounded-full" />
               )}
               <div className="flex flex-col">
-                <span className="text-stone-200 font-medium text-xl cursor-pointer">
+                <span className="text-stone-200 font-medium text-xl">
                   {player.full_name || player.username}
                 </span>
                 {player.full_name && (
-                  <span className="text-stone-400 text-sm font-semibold ">
+                  <span className="text-stone-400 text-sm font-semibold">
                     @{player.username ? player.username : "Unknown"}
                   </span>
                 )}
               </div>
             </div>
 
-            {/* Github Scores Column */}
+            {/* Scores Column */}
             <div className="flex flex-col items-center justify-center w-full">
               <span className="text-neutral-200 text-2xl">
-                {player.scores ? player.scores : "0"}
+                {getDisplayScore(player)}
               </span>
             </div>
 

@@ -12,9 +12,13 @@ export default async function RankingsPage() {
   const { data: profiles, error } = await supabase
     .from("profiles")
     .select(
-      "id, username, full_name, avatar_url, scores, mainlanguage, secondlanguage",
+      "id, username, full_name, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername, leetcodescores",
     )
     .order("scores", { ascending: false });
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (error) {
     console.error("Error fetching profiles:", error);
@@ -58,14 +62,17 @@ export default async function RankingsPage() {
           </p>
 
           {/* Search Bar */}
-          <SearchSection profiles={playersWithAvatars} />
+          <SearchSection
+            profiles={playersWithAvatars}
+            currentUserId={user?.id || ""}
+          />
         </div>
       </div>
 
       {/* Rankings Content */}
       <div className="mx-4 py-8">
         <RankingsPageClient
-          currentUserId={playersWithAvatars.id}
+          currentUserId={user?.id || ""}
           initialPlayers={playersWithAvatars}
         />
       </div>

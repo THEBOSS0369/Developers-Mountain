@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import RankingsTable from "./rankings-table";
-
-type TabType = "trophies" | "wars" | "multiplayer" | "social" | "singlePlayer";
-type SubTabType = "trophies" | "builderBase" | "bestTrophies";
+import { useSearchParams } from "next/navigation";
 
 interface RankingPageClientProps {
   initialPlayers: any[];
 }
 
-const RankingPageClient = ({ initialPlayers }: RankingPageClientProps) => {
+const RankingPageClient = ({
+  initialPlayers,
+  currentUserId,
+}: RankingPageClientProps) => {
   const [activeTab, setActiveTab] = useState<TabType>("trophies");
   const [activeSubTab, setActiveSubTab] = useState<SubTabType>("trophies");
   const [page, setPage] = useState(1);
@@ -18,6 +19,8 @@ const RankingPageClient = ({ initialPlayers }: RankingPageClientProps) => {
   const totalItems = 500;
   const [searchTerm, setSearchTerm] = useState("");
   const [showNoResults, setShowNoResults] = useState(false);
+  const searchParams = useSearchParams();
+  const activeTagFromURL = searchParams.get("tag") || "All";
 
   const handlePrevPage = () => {
     if (page > 1) setPage(page - 1);
@@ -29,10 +32,13 @@ const RankingPageClient = ({ initialPlayers }: RankingPageClientProps) => {
 
   const filteredPlayers = initialPlayers.filter((player) => {
     const searchText = searchTerm.toLowerCase();
+
+    // check if username is null or undefined before calling to toLowerCase
+    const username = player.username ? player.username.toLowerCase() : "";
+    const fullName = player.full_name ? player.full_name.toLowerCase() : "";
     return (
-      player.username.toLowerCase().includes(searchText) ||
-      (player.full_name &&
-        player.full_name.toLowerCase().includes(searchText)) ||
+      username.includes(searchText) ||
+      fullName.includes(searchText) ||
       player.id.toLowerCase().includes(searchText)
     );
   });
@@ -54,7 +60,11 @@ const RankingPageClient = ({ initialPlayers }: RankingPageClientProps) => {
 
       {/* Table Section */}
       <div className="container mx-auto ">
-        <RankingsTable players={initialPlayers} />
+        <RankingsTable
+          currentUserId={currentUserId}
+          players={initialPlayers}
+          activeTagFromURL={activeTagFromURL}
+        />
       </div>
 
       {/* Pagination */}

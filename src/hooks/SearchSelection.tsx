@@ -3,14 +3,18 @@
 import React from "react";
 import SearchBarWithResults from "@/components/common/SearchBar";
 
-const SearchSection = ({ profiles }) => {
+const SearchSection = ({ profiles, currentUserId }) => {
   const handleSelectUser = (user) => {
     // Handle user selection here
-    // Add any additional functionality you need
+    //  additional functionality
   };
 
   return (
-    <SearchBarWithResults profiles={profiles} onSelectUser={handleSelectUser} />
+    <SearchBarWithResults
+      profiles={profiles}
+      currentUserId={currentUserId}
+      onSelectUser={handleSelectUser}
+    />
   );
 };
 

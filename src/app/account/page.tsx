@@ -8,6 +8,8 @@ import { fetchGitHubData } from "@/lib/github";
 import { ProfileCard } from "@/components/github/ProfileCard";
 import { RepositoryList } from "@/components/github/RepositoryList";
 import { PullRequestList } from "@/components/github/PullRequestList";
+import { fetchLeetCodeStats } from "@/lib/leetcode";
+import LeetCodeCard from "@/components/leetcode/LeetCodeCard";
 
 export default async function Account() {
   const supabase = await createClient();
@@ -15,11 +17,10 @@ export default async function Account() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   const { data: profile, error } = await supabase
     .from("profiles")
     .select(
-      "full_name, username, website, avatar_url, github_username, scores, mainlanguage, secondlanguage",
+      "full_name, username, website, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername",
     )
     .eq("id", user?.id)
     .single();
@@ -42,6 +43,13 @@ export default async function Account() {
   if (githubUser.user_name) {
     githubData = await fetchGitHubData(githubUser.user_name);
   }
+
+  let leetcodeStats = null;
+  if (profile?.leetcodeusername) {
+    leetcodeStats = await fetchLeetCodeStats(profile.leetcodeusername);
+  }
+
+  console.log("Profile Data:", profile);
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">
@@ -94,9 +102,12 @@ export default async function Account() {
             </div>
           )}
 
-          {profile?.github_username && (
+          {profile?.leetcodeusername && (
             <div>
-              <p>{profile?.github_username}</p>
+              <label className="block text-sm text-gray-400">
+                LeetCode Username
+              </label>
+              <p className="text-white">{profile.leetcodeusername}</p>
             </div>
           )}
 
@@ -116,6 +127,13 @@ export default async function Account() {
               </label>
               <p>{profile?.secondlanguage}</p>
             </div>
+          )}
+
+          {profile?.leetcodeusername && (
+            <LeetCodeCard
+              stats={leetcodeStats}
+              username={profile.leetcodeusername}
+            />
           )}
 
           {profile?.website && (
