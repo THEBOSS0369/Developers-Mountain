@@ -39,7 +39,7 @@ export default function Avatar({
   }, [url, supabase]);
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (
-    event
+    event,
   ) => {
     try {
       setUploading(true);
