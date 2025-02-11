@@ -7,6 +7,7 @@ import { PullRequest, CommitFile } from "@/types/github";
 import { PRScore } from "@/types/scoring";
 import { calculatePRScore } from "@/services/scoreCalculation";
 import { fetchCommitFiles } from "@/lib/github";
+import PRScoreChart from "@/components/PRScoreChart";
 
 interface PullRequestListProps {
   pullRequests: PullRequest[];
@@ -24,6 +25,19 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
   const [prsWithScores, setPrsWithScores] = useState<PRWithScore[]>([]);
   const [loading, setLoading] = useState(true);
   const [averageScore, setAverageScore] = useState<number | null>(null);
+  const [expandedPRs, setExpandedPRs] = useState<Set<number>>(new Set());
+
+  const togglePRDetails = (prId: number) => {
+    setExpandedPRs((prev) => {
+      const updated = new Set(prev);
+      if (updated.has(prId)) {
+        updated.delete(prId);
+      } else {
+        updated.add(prId);
+      }
+      return updated;
+    });
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -46,7 +60,7 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
             try {
               const files = await fetchCommitFiles(
                 pr.repository.full_name,
-                pr.merge_commit_sha
+                pr.merge_commit_sha,
               );
               const score = calculatePRScore(files, pr);
               return { pr, score, files };
@@ -56,7 +70,7 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
             }
           }
           return { pr, score: null, files: [] };
-        })
+        }),
       );
 
       const validScores = scoredPRs.filter((prScore) => prScore.score !== null);
@@ -64,7 +78,7 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
         validScores.length > 0
           ? validScores.reduce(
               (sum, prScore) => sum + (prScore.score?.total || 0),
-              0
+              0,
             ) / validScores.length
           : null;
 
@@ -216,9 +230,19 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
                     )}
                   </div>
                 </div>
+                {score && (
+                  <button
+                    onClick={() => togglePRDetails(pr.id)}
+                    className="text-blue-600 hover:underline text-sm"
+                  >
+                    {expandedPRs.has(pr.id) ? "Hide Details" : "More Details"}
+                  </button>
+                )}
               </div>
 
-              {score && <ScoreDisplay score={score} />}
+              {score && expandedPRs.has(pr.id) && (
+                <ScoreDisplay score={score} />
+              )}
             </div>
           ))}
         </div>

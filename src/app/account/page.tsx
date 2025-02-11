@@ -1,15 +1,12 @@
-import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { getPublicImageURL } from "@/utils/supabase/public-url";
 import Link from "next/link";
 import Image from "next/image";
 import { GitHubUser } from "@/types/github";
 import { fetchGitHubData } from "@/lib/github";
-import { ProfileCard } from "@/components/github/ProfileCard";
-import { RepositoryList } from "@/components/github/RepositoryList";
-import { PullRequestList } from "@/components/github/PullRequestList";
 import { fetchLeetCodeStats } from "@/lib/leetcode";
-import LeetCodeCard from "@/components/leetcode/LeetCodeCard";
+import { TabContent } from "./TabContent.tsx";
+
 export default async function Account() {
   const supabase = await createClient();
 
@@ -19,7 +16,7 @@ export default async function Account() {
   const { data: profile, error } = await supabase
     .from("profiles")
     .select(
-      "full_name, username, website, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername",
+      "full_name, username, website, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername, leetcodescores",
     )
     .eq("id", user?.id)
     .single();
@@ -28,7 +25,6 @@ export default async function Account() {
     console.log("Error fetching profile:", error);
   }
 
-  // Get the public URL for the avatar
   const avatarUrl = getPublicImageURL("avatars", profile?.avatar_url);
 
   const githubUser: GitHubUser = {
@@ -49,30 +45,30 @@ export default async function Account() {
   }
 
   return (
-    <div className=" text-white min-h-screen px-6 py-2">
+    <div className="text-white min-h-screen px-6 py-2">
       <div className="mx-auto">
-        <div className="relative rounded-lg h-[300px] w-[calc(100%)] mx-auto overflow-hidden">
-          {/* Background Image */}
+        {/* Hero Background */}
+        <div className="relative shadow-[0_0_50px_theme(colors.stone.500/40%)] rounded-lg h-[250px] w-[calc(100%)] mx-auto overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: "url('/images/light.jpg')", // Replace with your image path
+              backgroundImage: "url('/images/zebra.png')",
               backgroundPosition: "center",
             }}
           />
-          <div className="absolute inset-0 bg-white bg-black/20 to-transparent" />
+          <div className="absolute shadow-[0_0_50px_theme(colors.stone.700/40%)] inset-4 rounded-lg bg-black/10 backdrop-blur-2xl to-transparent" />
         </div>
 
-        {/* Top Profile Section */}
-        <div className="flex items-center space-x-6 mb-6">
-          <div className="relative">
+        {/* Profile Section */}
+        <div className="flex items-center ml-20 space-x-6 mb-6 -mt-20">
+          <div className="relative bg-stone-800/10 backdrop-blur-xl border-2 border-stone-600/20 rounded-3xl">
             {avatarUrl && (
               <Image
-                src={avatarUrl}
+                src={githubUser?.avatar_url}
                 alt="Profile"
-                width={120}
-                height={120}
-                className="rounded-full border-4 border-[#2a2a2a] object-cover"
+                width={360}
+                height={360}
+                className="rounded-3xl object-cover"
                 priority
               />
             )}
@@ -83,112 +79,52 @@ export default async function Account() {
               Edit Profile
             </Link>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold">
-              {profile?.full_name || githubUser.name}
-            </h1>
-            <p className="text-gray-400">
-              @{profile?.username || githubUser.user_name}
-            </p>
-            <div className="flex space-x-4 mt-2">
-              <div>
-                <span className="text-gray-400">Languages</span>
-                <p>
-                  {profile?.mainlanguage}, {profile?.secondlanguage}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          {/* LeetCode Progress */}
-          {profile?.leetcodeusername && leetcodeStats && (
-            <div className="bg-[#2a2a2a] rounded-lg p-4">
-              <h3 className="text-gray-400 mb-2">LeetCode Progress</h3>
-              <div
-                className="radial-progress text-center"
-                style={{
-                  "--value": `${leetcodeStats.totalSolved}`,
-                  "--size": "4rem",
-                  "--thickness": "0.5rem",
-                }}
-              >
-                <span className="text-xl font-bold">
-                  {leetcodeStats.totalSolved}/3445
+          {/* Basic Info and Stats */}
+          <div className="flex justify-between items-start p-4 mt-20 w-full">
+            <div className="flex flex-col">
+              <h1 className="text-4xl font-bold">
+                {profile?.full_name || githubUser.name}
+              </h1>
+              <h2 className="text-lg py-1 font-semibold text-lime-300">
+                @{profile?.username || githubUser.user_name}
+              </h2>
+            </div>
+
+            {/* Stats Overview */}
+            <div className="flex space-x-8 px-24">
+              <div className="flex flex-col items-center">
+                <span className="text-xl text-zinc-400">Total</span>
+                <span className="text-3xl font-bold">{profile?.scores}</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-xl text-zinc-400">GitHub</span>
+                <span className="text-3xl font-bold">
+                  {profile?.scores || 0.0}
                 </span>
-                <p className="text-xs text-gray-400">Solved</p>
               </div>
-              <div className="grid grid-cols-3 text-center mt-2">
-                <div>
-                  <span className="text-green-500">Easy</span>
-                  <p>{leetcodeStats.easySolved}/856</p>
-                </div>
-                <div>
-                  <span className="text-yellow-500">Medium</span>
-                  <p>{leetcodeStats.mediumSolved}/1793</p>
-                </div>
-                <div>
-                  <span className="text-red-500">Hard</span>
-                  <p>{leetcodeStats.hardSolved}/796</p>
-                </div>
+              <div className="flex flex-col items-center">
+                <span className="text-xl text-zinc-400">LeetCode</span>
+                <span className="text-3xl font-bold">
+                  {profile?.leetcodescores
+                    ? profile.leetcodescores.toFixed(3)
+                    : "00.00"}
+                </span>
               </div>
             </div>
-          )}
-
-          {/* Badges */}
-          <div className="bg-[#2a2a2a] rounded-lg p-4">
-            <h3 className="text-gray-400 mb-2">Badges</h3>
-            <div className="text-center">
-              <p className="text-4xl font-bold">0</p>
-              <p className="text-gray-400">Locked Badge</p>
-              <p className="text-xs">Feb LeetCoding Challenge</p>
-            </div>
-          </div>
-
-          {/* Additional User Info */}
-          <div className="bg-[#2a2a2a] rounded-lg p-4 space-y-2">
-            <div>
-              <span className="text-gray-400">Email</span>
-              <p>{user?.email}</p>
-            </div>
-            {profile?.website && (
-              <div>
-                <span className="text-gray-400">Website</span>
-                <a
-                  href={profile.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-300"
-                >
-                  {profile.website}
-                </a>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Submission Activity */}
-        <div className="bg-[#2a2a2a] rounded-lg p-4 mb-6">
-          <h3 className="text-gray-400 mb-2">Submission Activity</h3>
-          <div className="h-20 bg-[#1a1a1a] rounded grid grid-cols-12 gap-1 p-1">
-            {[...Array(12)].map((_, i) => (
-              <div key={i} className="bg-[#2a2a2a] rounded"></div>
-            ))}
-          </div>
-        </div>
+        {/* Tab Content */}
+        <TabContent
+          user={user}
+          profile={profile}
+          githubUser={githubUser}
+          githubData={githubData}
+          leetcodeStats={leetcodeStats}
+        />
 
-        {/* GitHub and LeetCode Additional Components */}
-        <ProfileCard user={githubUser} />
-        {githubData && (
-          <>
-            <RepositoryList repositories={githubData.repos} />
-            <PullRequestList pullRequests={githubData.prs} />
-          </>
-        )}
-
-        {/* Signout Button */}
+        {/* Sign Out Button */}
         <div className="mt-6">
           <form action="/auth/signout" method="post">
             <button
