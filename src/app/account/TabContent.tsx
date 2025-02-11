@@ -107,7 +107,7 @@ export const TabContent = ({
       )}
 
       {activeTab === "leetcode" && (
-        <Card className="bg-stone-800/50 p-6">
+        <Card className="bg-stone-700/20 backdrop-blur-2xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/40%)] p-6">
           <h2 className="text-xl font-semibold mb-4">LeetCode Progress</h2>
           {profile?.leetcodeusername && leetcodeStats && (
             <div className="space-y-6">
