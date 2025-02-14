@@ -105,28 +105,28 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
   }, [pullRequests, user]);
 
   const ScoreDisplay = ({ score }: { score: PRScore }) => (
-    <div className="mt-4 bg-gray-50 p-4 rounded-lg">
+    <div className="mt-4 bg-stone-700/30 backdrop-blur-xl p-4 rounded-lg">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-3 rounded shadow-sm">
-          <div className="text-sm text-gray-600">Overall Score</div>
-          <div className="text-2xl font-bold text-blue-600">
+        <div className="bg-stone-700/30 backdrop-blur-xl p-3 rounded shadow-sm">
+          <div className="text-sm text-brown-400">Overall Score</div>
+          <div className="text-2xl font-bold text-lime-400">
             {score.total.toFixed(1)}
           </div>
         </div>
-        <div className="bg-white p-3 rounded shadow-sm">
-          <div className="text-sm text-gray-600">Code Quality</div>
+        <div className="bg-stone-700/30 backdrop-blur-xl p-3 rounded shadow-sm">
+          <div className="text-sm text-brown-400">Code Quality</div>
           <div className="text-xl font-semibold text-green-600">
             {score.metrics.complexityScore.toFixed(1)}
           </div>
         </div>
-        <div className="bg-white p-3 rounded shadow-sm">
-          <div className="text-sm text-gray-600">Impact</div>
+        <div className="bg-stone-700/30 backdrop-blur-xl p-3 rounded shadow-sm">
+          <div className="text-sm text-brown-400">Impact</div>
           <div className="text-xl font-semibold text-purple-600">
             {score.metrics.impactScore.toFixed(1)}
           </div>
         </div>
-        <div className="bg-white p-3 rounded shadow-sm">
-          <div className="text-sm text-gray-600">Files Changed</div>
+        <div className="bg-stone-700/30 backdrop-blur-xl p-3 rounded shadow-sm">
+          <div className="text-sm text-brown-400">Files Changed</div>
           <div className="text-xl font-semibold text-orange-600">
             {score.metrics.filesScore.toFixed(1)}
           </div>
@@ -135,18 +135,18 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
 
       {score.metrics.qualityIssues.length > 0 && (
         <div className="mt-4">
-          <div className="text-sm font-semibold text-gray-700 mb-2">
+          <div className="text-sm font-semibold text-stone-400 mb-2">
             Quality Issues Found:
           </div>
-          <div className="bg-white p-3 rounded shadow-sm">
+          <div className="bg-stone-800/50 p-3 rounded shadow-sm">
             <ul className="space-y-1">
               {score.metrics.qualityIssues.map((issue, index) => (
                 <li
                   key={index}
-                  className="text-sm flex justify-between items-center border-b last:border-0 py-1"
+                  className="text-sm flex justify-between items-center border-stone-700 border-b last:border-0 py-1"
                 >
-                  <span className="text-red-600">{issue.description}</span>
-                  <span className="text-gray-500">-{issue.penalty} pts</span>
+                  <span className="text-red-500">{issue.description}</span>
+                  <span className="text-stone-400">-{issue.penalty} pts</span>
                 </li>
               ))}
             </ul>
@@ -158,7 +158,7 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
 
   if (loading) {
     return (
-      <Card>
+      <Card className="bg-stone-700/30 backdrop-blur-xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)]">
         <CardHeader>
           <CardTitle>Recent PR&apos;s</CardTitle>
         </CardHeader>
@@ -170,14 +170,14 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
   }
 
   return (
-    <Card>
+    <Card className="bg-stone-700/30 backdrop-blur-xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)]">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>Recent PR&apos;s</CardTitle>
           {averageScore !== null && (
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-brown-700">
               Avg Score:{" "}
-              <span className="font-bold text-blue-600">
+              <span className="font-bold text-green-500">
                 {averageScore.toFixed(1)}
               </span>
             </div>
@@ -187,25 +187,28 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
       <CardContent>
         <div className="space-y-8">
           {prsWithScores.map(({ pr, score, files }) => (
-            <div key={pr.id} className="border-b pb-4 last:border-0">
+            <div
+              key={pr.id}
+              className="border-b border-stone-600 pb-4 last:border-0"
+            >
               <div className="flex justify-between items-start">
                 <div>
                   <a
                     href={pr.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline font-medium"
+                    className="text-lime-400 hover:underline font-medium"
                   >
                     {pr.title}
                   </a>
                   <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-600">
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center text-lime-200 gap-1">
                       <span role="img" aria-label="repository">
                         📂
                       </span>
                       {pr.repository?.name}
                     </span>
-                    <span className="flex items-center gap-1">
+                    <span className="flex text-green-100 items-center gap-1">
                       <span role="img" aria-label="date">
                         📅
                       </span>
@@ -214,14 +217,14 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
                     <span
                       className={`flex items-center gap-1 ${
                         pr.state === "open"
-                          ? "text-green-600"
-                          : "text-purple-600"
+                          ? "text-green-400"
+                          : "text-purple-400"
                       }`}
                     >
                       {pr.state === "open" ? "🟢 Open" : "🟣 Merged"}
                     </span>
                     {files.length > 0 && (
-                      <span className="flex items-center gap-1">
+                      <span className="flex px-4 text-amber-200 items-center gap-1">
                         <span role="img" aria-label="files">
                           📄
                         </span>
@@ -233,7 +236,7 @@ export function PullRequestList({ pullRequests }: PullRequestListProps) {
                 {score && (
                   <button
                     onClick={() => togglePRDetails(pr.id)}
-                    className="text-blue-600 hover:underline text-sm"
+                    className="text-lime-600 hover:underline text-sm"
                   >
                     {expandedPRs.has(pr.id) ? "Hide Details" : "More Details"}
                   </button>

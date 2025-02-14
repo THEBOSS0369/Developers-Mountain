@@ -39,7 +39,7 @@ export function RadialChart({
   const chartData = [
     {
       score: value,
-      fill: "var(--color-score)",
+      fill: "#a3e635",
       maxValue: maxValue,
     },
   ];
@@ -52,12 +52,14 @@ export function RadialChart({
   };
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex bg-stone-700/30 backdrop-blur-xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)] flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardTitle className="text-xl">{title}</CardTitle>
+        <CardDescription className="text-lime-300">
+          {description}
+        </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1  pb-0">
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px]"
@@ -73,7 +75,7 @@ export function RadialChart({
               gridType="circle"
               radialLines={false}
               stroke="none"
-              className="first:fill-muted last:fill-background"
+              className="first:fill-stone-600  last:fill-stone-800"
               polarRadius={[86, 74]}
             />
             <RadialBar
@@ -116,18 +118,7 @@ export function RadialChart({
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending {trend >= 0 ? "up" : "down"} by {Math.abs(trend).toFixed(1)}%{" "}
-          {trendPeriod}
-          {trend >= 0 ? (
-            <TrendingUp className="h-4 w-4 text-green-500" />
-          ) : (
-            <TrendingDown className="h-4 w-4 text-red-500" />
-          )}
-        </div>
-        <div className="leading-none text-muted-foreground">{description}</div>
-      </CardFooter>
+      <CardFooter className="flex-col gap-2 text-sm"></CardFooter>
     </Card>
   );
 }
