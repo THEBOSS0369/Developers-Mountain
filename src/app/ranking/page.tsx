@@ -36,7 +36,7 @@ export default async function RankingsPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <div className="relative rounded-lg h-[500px] w-[calc(100%-20px)] mx-auto overflow-hidden">
+      <div className="relative shadow-[0_0_50px_theme(colors.stone.500/10%)] rounded-lg h-[500px] w-[calc(100%-20px)] mx-auto overflow-hidden">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"

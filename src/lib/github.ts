@@ -18,11 +18,11 @@ export async function fetchGitHubData(username: string): Promise<GitHubData> {
     // Fetch repositories
     const reposResponse = await fetch(
       `https://api.github.com/users/${username}/repos?sort=updated&per_page=5`,
-      { headers }
+      { headers },
     );
     if (!reposResponse.ok) {
       throw new Error(
-        `Failed to fetch repositories: ${reposResponse.statusText}`
+        `Failed to fetch repositories: ${reposResponse.statusText}`,
       );
     }
     const repos = await reposResponse.json();
@@ -30,7 +30,7 @@ export async function fetchGitHubData(username: string): Promise<GitHubData> {
     // Fetch pull requests
     const prsResponse = await fetch(
       `https://api.github.com/search/issues?q=author:${username}+type:pr&sort=updated&per_page=5`,
-      { headers }
+      { headers },
     );
     if (!prsResponse.ok) {
       throw new Error(`Failed to fetch PRs: ${prsResponse.statusText}`);
@@ -45,7 +45,7 @@ export async function fetchGitHubData(username: string): Promise<GitHubData> {
         // Fetch detailed PR data to get merge commit SHA
         const prDetailResponse = await fetch(
           `https://api.github.com/repos/${repoFullName}/pulls/${pr.number}`,
-          { headers }
+          { headers },
         );
 
         if (!prDetailResponse.ok) {
@@ -68,7 +68,7 @@ export async function fetchGitHubData(username: string): Promise<GitHubData> {
             full_name: repoFullName,
           },
         };
-      })
+      }),
     );
 
     return { repos, prs };
@@ -97,7 +97,7 @@ function shouldIncludeFile(filename: string): boolean {
 // fetch commit files
 export async function fetchCommitFiles(
   repoFullName: string,
-  commitSha: string
+  commitSha: string,
 ): Promise<CommitFile[]> {
   try {
     const githubToken = process.env.NEXT_PUBLIC_GITHUB_ACCESS_TOKEN;
@@ -111,7 +111,7 @@ export async function fetchCommitFiles(
     };
     const resposne = await fetch(
       `https://api.github.com/repos/${repoFullName}/commits/${commitSha}`,
-      { headers }
+      { headers },
     );
     if (!resposne.ok) {
       throw new Error(`Failed to Fetch commit: ${resposne.statusText}`);
@@ -121,7 +121,7 @@ export async function fetchCommitFiles(
 
     // Filtering out excluded file
     const filteredFiles = (commitData.files || []).filter(
-      (file: { filename: string }) => shouldIncludeFile(file.filename)
+      (file: { filename: string }) => shouldIncludeFile(file.filename),
     );
 
     return filteredFiles;

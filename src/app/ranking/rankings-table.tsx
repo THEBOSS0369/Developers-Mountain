@@ -134,20 +134,24 @@ const RankingsTable = ({
               <span className="text-white text-2xl">{index + 1}</span>
             </div>
 
-            {/* Player Column */}
-            <div className="flex items-center justify-center w-full gap-4">
-              {player.avatar_url ? (
-                <Image
-                  src={player.avatar_url}
-                  alt="Profile"
-                  width={48}
-                  height={48}
-                  className="rounded-md object-cover"
-                  priority
-                />
-              ) : (
-                <div className="w-8 h-8 bg-gray-600 rounded-full" />
-              )}
+            {/* Player Column - Improved alignment */}
+            <div className="flex items-center justify-start w-full gap-4 pl-12">
+              <div className="h-10 w-10 flex-shrink-0">
+                {player.avatar_url ? (
+                  <div className="relative h-10 w-10">
+                    <Image
+                      src={player.avatar_url}
+                      alt="Profile"
+                      fill
+                      sizes="40px"
+                      className="rounded-md object-cover"
+                      priority
+                    />
+                  </div>
+                ) : (
+                  <div className="h-10 w-10 bg-gray-600 rounded-full" />
+                )}
+              </div>
               <div className="flex flex-col">
                 <span className="text-stone-200 font-medium text-xl">
                   {player.full_name || player.username}
