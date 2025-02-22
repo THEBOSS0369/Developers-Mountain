@@ -1,3 +1,4 @@
+// page.tsx
 import { createClient } from "@/utils/supabase/server";
 import { getPublicImageURL } from "@/utils/supabase/public-url";
 import Link from "next/link";
@@ -56,7 +57,7 @@ export default async function Account() {
               backgroundPosition: "center",
             }}
           />
-          <div className="absolute shadow-[0_0_50px_theme(colors.stone.700/40%)] inset-4 rounded-lg bg-black/10 backdrop-blur-2xl to-transparent" />
+          {/* <div className="absolute shadow-[0_0_50px_theme(colors.stone.700/40%)] inset-0 rounded-lg bg-black/10 backdrop-blur-2xl to-transparent" /> */}
         </div>
 
         {/* Profile Section */}
@@ -74,7 +75,7 @@ export default async function Account() {
             )}
             <Link
               href="/account/edit-info"
-              className="absolute bottom-0 right-0 bg-green-500 text-white rounded-full px-2 py-1 text-xs"
+              className="absolute bottom-0 right-0 bg-green-600 text-white rounded-lg px-2 py-1 text-xs"
             >
               Edit Profile
             </Link>
@@ -95,7 +96,11 @@ export default async function Account() {
             <div className="flex space-x-8 px-24">
               <div className="flex flex-col items-center">
                 <span className="text-xl text-zinc-400">Total</span>
-                <span className="text-3xl font-bold">{profile?.scores}</span>
+                <span className="text-3xl font-bold">
+                  {(
+                    (profile?.scores || 0) + (profile?.leetcodescores || 0)
+                  ).toFixed(0)}{" "}
+                </span>
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-xl text-zinc-400">GitHub</span>
@@ -107,7 +112,7 @@ export default async function Account() {
                 <span className="text-xl text-zinc-400">LeetCode</span>
                 <span className="text-3xl font-bold">
                   {profile?.leetcodescores
-                    ? profile.leetcodescores.toFixed(3)
+                    ? profile.leetcodescores.toFixed(2)
                     : "00.00"}
                 </span>
               </div>
@@ -128,7 +133,7 @@ export default async function Account() {
         <div className="mt-6">
           <form action="/auth/signout" method="post">
             <button
-              className="w-full bg-red-600 text-white py-3 rounded hover:bg-red-700 transition duration-200"
+              className="bg-red-600 border-red-700/70 shadow-[0_0_50px_theme(colors.red.700/10%)] text-white py-3 px-20 rounded hover:bg-red-700 transition duration-200 mx-auto block"
               type="submit"
             >
               Sign Out

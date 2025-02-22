@@ -1,20 +1,17 @@
-import React from "react";
 import { createClient } from "@/utils/supabase/server";
-import AccountForm from "../account-form";
-import Link from "next/link";
+import EditInfoPage from "../EditInfoPage";
+import { redirect } from "next/navigation";
 
-export default async function editUserInfo() {
+export default async function EditUserInfo() {
   const supabase = await createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return (
-    <div>
-      <Link href="/account">Go Back</Link>
-      <h1>Editing User Info</h1>
-      <AccountForm user={user} />
-    </div>
-  );
+  // Redirect if user is not authenticated
+  if (!user) {
+    redirect("/auth/signin");
+  }
+
+  return <EditInfoPage user={user} />;
 }

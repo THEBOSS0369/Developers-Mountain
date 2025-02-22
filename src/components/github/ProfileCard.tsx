@@ -8,22 +8,17 @@ interface ProfileCardProps {
 
 export function ProfileCard({ user }: ProfileCardProps) {
   return (
-    <Card>
+    <Card className="bg-stone-700/30 backdrop-blur-xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)]">
       <CardHeader>
-        <CardTitle>Github Information</CardTitle>
+        <CardTitle>
+          {user?.user_name && (
+            <span className="text-stone-300">
+              GitHub User Name:{" "}
+              <span className="text-lime-300">@{user?.user_name}</span>
+            </span>
+          )}
+        </CardTitle>
       </CardHeader>
-      <CardContent className="flex items-center space-x-4">
-        <div>
-          <h2 className="text-2xl font-bold">{user?.name}</h2>
-          <p className="text-gray-600">
-            {user?.user_name && (
-              <span className="text-neutral-100/60">
-                User Name: @{user?.user_name}
-              </span>
-            )}
-          </p>
-        </div>
-      </CardContent>
     </Card>
   );
 }

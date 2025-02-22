@@ -1,8 +1,10 @@
-// app/profile/[id]/page.tsx
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getPublicImageURL } from "@/utils/supabase/public-url";
+import { PublicTabContent } from "./PublicTabContent";
+import { fetchGitHubData } from "@/lib/github";
+import { fetchLeetCodeStats } from "@/lib/leetcode";
 
 interface ProfileParams {
   params: {
@@ -10,7 +12,6 @@ interface ProfileParams {
   };
 }
 
-// Add generateMetadata to properly handle async params
 export async function generateMetadata({ params }: ProfileParams) {
   return {
     title: `Profile ${params.id}`,
@@ -24,14 +25,12 @@ export default async function ProfilePage({ params }: ProfileParams) {
     notFound();
   }
 
-  // First try to fetch by id
   let { data: profile, error } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", params.id)
     .single();
 
-  // If no profile found by id, try to fetch by provider_id (for Auth users)
   if (!profile && error) {
     const { data: githubProfile, error: githubError } = await supabase
       .from("profiles")
@@ -50,93 +49,95 @@ export default async function ProfilePage({ params }: ProfileParams) {
     notFound();
   }
 
-  return (
-    <div className="min-h-screen bg-[#121211] text-white">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Profile Header */}
-        <div className="bg-neutral-800/30 rounded-lg p-6 mb-8">
-          <div className="flex items-start gap-6">
-            {/* Avatar */}
-            <div className="flex-shrink-0">
-              {profile.avatar_url ? (
-                <Image
-                  src={getPublicImageURL("avatars", profile.avatar_url)}
-                  alt="Profile"
-                  width={120}
-                  height={120}
-                  className="rounded-lg object-cover"
-                  priority
-                />
-              ) : (
-                <div className="w-24 h-24 bg-neutral-700 rounded-lg" />
-              )}
-            </div>
+  // Fetch GitHub and LeetCode data
+  let githubData;
+  if (profile.github_username) {
+    githubData = await fetchGitHubData(profile.github_username);
+  }
 
-            {/* User Info */}
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold text-white mb-2">
+  let leetcodeStats = null;
+  if (profile.leetcodeusername) {
+    leetcodeStats = await fetchLeetCodeStats(profile.leetcodeusername);
+  }
+
+  return (
+    <div className="text-white min-h-screen px-6 py-2">
+      <div className="mx-auto">
+        {/* Hero Background */}
+        <div className="relative shadow-[0_0_50px_theme(colors.amber.200/20%)] rounded-lg h-[250px] w-[calc(100%)] mx-auto overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: "url('/images/enterprise.jpg')",
+              backgroundPosition: "center",
+            }}
+          />
+
+          {/* <div className="absolute shadow-[0_0_50px_theme(colors.stone.700/40%)] inset-0 rounded-lg bg-black/10 backdrop-blur-2xl to-transparent" /> */}
+        </div>
+
+        {/* Profile Section */}
+        <div className="flex items-center ml-20 space-x-6 mb-6 -mt-20">
+          <div className="relative bg-stone-800/10 backdrop-blur-xl border-2 border-stone-600/20 rounded-3xl">
+            {profile.avatar_url ? (
+              <Image
+                src={getPublicImageURL("avatars", profile.avatar_url)}
+                alt="Profile"
+                width={360}
+                height={360}
+                className="rounded-3xl object-cover"
+                priority
+              />
+            ) : (
+              <div className="w-[360px] h-[360px] bg-neutral-700 rounded-3xl" />
+            )}
+          </div>
+
+          {/* Basic Info and Stats */}
+          <div className="flex justify-between items-start p-4 mt-20 w-full">
+            <div className="flex flex-col">
+              <h1 className="text-4xl font-bold">
                 {profile.full_name || profile.username}
               </h1>
-              {profile.full_name && (
-                <p className="text-lg text-neutral-400 mb-4">
-                  @{profile.username}
-                </p>
-              )}
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="bg-neutral-800/50 p-4 rounded-lg">
-                  <p className="text-sm text-neutral-400">GitHub Score</p>
-                  <p className="text-2xl font-bold">{profile.scores || "0"}</p>
-                </div>
-                <div className="bg-neutral-800/50 p-4 rounded-lg">
-                  <p className="text-sm text-neutral-400">Rank</p>
-                  <p className="text-2xl font-bold">#1</p>
-                </div>
+              <h2 className="text-lg py-1 font-semibold text-lime-300">
+                @{profile.username}
+              </h2>
+            </div>
+
+            {/* Stats Overview */}
+            <div className="flex space-x-8 px-24">
+              <div className="flex flex-col items-center">
+                <span className="text-xl text-zinc-400">Total</span>
+                <span className="text-3xl font-bold">
+                  {(
+                    (profile.scores || 0) + (profile.leetcodescores || 0)
+                  ).toFixed(0)}
+                </span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-xl text-zinc-400">GitHub</span>
+                <span className="text-3xl font-bold">
+                  {profile.scores || "0"}
+                </span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-xl text-zinc-400">LeetCode</span>
+                <span className="text-3xl font-bold">
+                  {profile.leetcodescores
+                    ? profile.leetcodescores.toFixed(2)
+                    : "00.00"}
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Languages Section */}
-        <div className="bg-neutral-800/30 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Programming Languages</h2>
-          <div className="flex gap-4">
-            {profile.mainlanguage && (
-              <div className="bg-neutral-800 px-4 py-2 rounded-lg">
-                <p className="text-sm text-neutral-400">Main Language</p>
-                <p className="text-lg font-medium">{profile.mainlanguage}</p>
-              </div>
-            )}
-            {profile.secondlanguage && (
-              <div className="bg-neutral-800 px-4 py-2 rounded-lg">
-                <p className="text-sm text-neutral-400">Secondary Language</p>
-                <p className="text-lg font-medium">{profile.secondlanguage}</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Additional Stats Section */}
-        <div className="bg-neutral-800/30 rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Statistics</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-neutral-800/50 p-4 rounded-lg">
-              <p className="text-sm text-neutral-400">Total Problems Solved</p>
-              <p className="text-2xl font-bold">
-                {profile.problems_solved || "0"}
-              </p>
-            </div>
-            <div className="bg-neutral-800/50 p-4 rounded-lg">
-              <p className="text-sm text-neutral-400">Contributions</p>
-              <p className="text-2xl font-bold">
-                {profile.contributions || "0"}
-              </p>
-            </div>
-            <div className="bg-neutral-800/50 p-4 rounded-lg">
-              <p className="text-sm text-neutral-400">Streak</p>
-              <p className="text-2xl font-bold">{profile.streak || "0"} days</p>
-            </div>
-          </div>
-        </div>
+        {/* Tab Content */}
+        <PublicTabContent
+          profile={profile}
+          githubData={githubData}
+          leetcodeStats={leetcodeStats}
+        />
       </div>
     </div>
   );

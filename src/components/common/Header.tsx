@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import { LoginButton, ProfileButton } from "./buttons.component";
 import NavigationMenuDemo from "./NavigationMenuDemo";
-import { NavigationMenuDem } from "./NavigationMenu";
 import { type User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 import { MenubarDemo } from "./Menubar";

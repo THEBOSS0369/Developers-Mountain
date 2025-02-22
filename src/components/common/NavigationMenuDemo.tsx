@@ -13,6 +13,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
 const components: { title: string; href: string; description: string }[] = [
@@ -20,19 +21,19 @@ const components: { title: string; href: string; description: string }[] = [
     title: "Leader Board",
     href: "/ranking",
     description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
+      "View the top-ranked users based on their performance and contributions.",
   },
   {
     title: "GitHub",
     href: "/ranking?tag=Github",
     description:
-      "For sighted users to preview content available behind a link.",
+      "Explore rankings of top contributors and repositories on GitHub.",
   },
   {
     title: "Leetcode",
     href: "ranking?tag=Leetcode",
     description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+      "Check rankings of top coders on LeetCode based on their problem-solving skills.",
   },
 ];
 
@@ -61,6 +62,13 @@ export default function NavigationMenuDemo() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/rules" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Rules
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -77,7 +85,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-700/40 hover:text-white rounded-lg m-1",
-            "text-lg font-bold text-stone-200",
+            "text-md font-bold text-stone-200",
             className,
           )}
           {...props}
