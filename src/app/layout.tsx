@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={oswald.className}>
-      <body className=" dark">
+      <body className="bg-gradient-to-r from-[#000000] to-[#232323] dark">
         <NextAuthProvider>
           <div className="flex h-screen">
             <main className="flex-1">

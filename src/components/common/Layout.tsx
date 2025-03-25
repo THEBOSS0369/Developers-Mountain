@@ -22,7 +22,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#121211]">
+    <div className="min-h-screen">
+      {/* bg-[#121211] */}
       <Header />
       <main className="mt-4 sm:mt-24 text-[#ECECEC]">
         <div className="p-6">

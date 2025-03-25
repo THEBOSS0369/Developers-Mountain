@@ -36,7 +36,8 @@ const RankingPageClient = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#121211] border-t border-stone-600 text-white">
+    <div className="min-h-screen border-t border-stone-600 text-white">
+      {/* bg-[#121211]  */}
       {/* Table Section */}
       <div className="container mx-auto">
         <RankingsTable
@@ -47,7 +48,8 @@ const RankingPageClient = ({
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center p-6 bg-[#121211] border-t border-stone-600">
+      <div className="flex justify-center items-center p-6 border-t border-stone-600">
+        {/* bg-[#121211] */}
         <div className="flex items-center gap-3">
           {/* Previous Page Button */}
           <button
