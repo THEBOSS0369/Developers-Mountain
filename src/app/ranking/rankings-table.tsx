@@ -1,3 +1,4 @@
+// rankings-table.tsx
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -66,7 +67,8 @@ const RankingsTable = ({
   });
 
   return (
-    <div className="w-full bg-[#121211]">
+    <div className="w-full ">
+      {/* bg-[#121211] */}
       {/* Tags */}
       <div className="flex flex-col">
         {/* Platform row */}
