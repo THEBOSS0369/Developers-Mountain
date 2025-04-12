@@ -41,9 +41,17 @@ export default function NavigationMenuDemo() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        <NavigationMenuItem className="p-2">
+        {/* <NavigationMenuItem className="p-2"> */}
+        {/*   <Link href="/" legacyBehavior passHref> */}
+        {/*     <NavigationMenuLink className="text-2xl">Home</NavigationMenuLink> */}
+        {/*   </Link> */}
+        {/* </NavigationMenuItem> */}
+
+        <NavigationMenuItem>
           <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className="text-2xl">Home</NavigationMenuLink>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Home
+            </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>

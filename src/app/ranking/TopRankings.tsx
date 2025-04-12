@@ -66,7 +66,7 @@ const TopRankings = ({ players, currentUserId }: TopRankingsProps) => {
     scoreType: "all" | "github" | "leetcode",
   ) => {
     return (
-      <div className="bg-neutral-800 bg-opacity-30 rounded-xl p-6">
+      <div className="bg-neutral-800 border border-stone-700/70 shadow-[0_0_20px_theme(colors.neutral.700/30%)] bg-opacity-30 rounded-xl p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-stone-200">{title}</h2>
           <button
@@ -154,8 +154,9 @@ const TopRankings = ({ players, currentUserId }: TopRankingsProps) => {
 
   return (
     <div className="container mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold text-center mb-12 text-stone-200">
-        <span className="text-5xl">🏆</span> Developers Rankings
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-stone-200">
+        <span className="text-3xl sm:text-4xl md:text-5xl">🏆</span> DEVELOPERS
+        RANKINGS
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

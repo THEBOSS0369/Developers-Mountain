@@ -1,4 +1,3 @@
-// new code
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
@@ -80,10 +79,10 @@ export default function EditInfoPage({ user }: { user: User | null }) {
   };
 
   return (
-    <div className="text-white min-h-screen px-6 py-2">
+    <div className="text-white min-h-screen px-4 sm:px-6 py-2">
       <div className="mx-auto">
         {/* Hero Background */}
-        <div className="relative shadow-[0_0_50px_theme(colors.stone.500/40%)] rounded-lg h-[250px] w-[calc(100%)] mx-auto overflow-hidden">
+        <div className="relative shadow-[0_0_50px_theme(colors.stone.500/40%)] rounded-lg h-[150px] sm:h-[200px] md:h-[250px] w-full mx-auto overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
@@ -91,12 +90,12 @@ export default function EditInfoPage({ user }: { user: User | null }) {
               backgroundPosition: "center",
             }}
           />
-          <div className="absolute shadow-[0_0_50px_theme(colors.stone.700/40%)] inset-4 rounded-lg bg-black/10 backdrop-blur-2xl to-transparent" />
+          {/* <div className="absolute shadow-[0_0_50px_theme(colors.stone.700/40%)] inset-4 rounded-lg bg-black/10 backdrop-blur-2xl to-transparent" /> */}
         </div>
 
-        {/* Profile Section */}
-        <div className="flex items-center ml-20 space-x-6 mb-6 -mt-20">
-          <div className="relative bg-stone-800/10 backdrop-blur-xl border-2 border-stone-600/20 rounded-3xl">
+        {/* Profile Section - Centered on mobile, left-positioned on larger screens */}
+        <div className="flex justify-center md:justify-start md:ml-20 mb-6 -mt-16 sm:-mt-20">
+          <div className="relative bg-stone-800/10 backdrop-blur-xl border-2 border-stone-600/20 rounded-2xl overflow-hidden">
             <Avatar
               uid={user?.id ?? null}
               url={avatar_url}
@@ -112,8 +111,8 @@ export default function EditInfoPage({ user }: { user: User | null }) {
         </div>
 
         {/* Edit Form */}
-        <Card className="bg-stone-700/30 backdrop-blur-3xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/40%)] p-6 max-w-3xl mx-auto">
-          <div className="flex justify-between items-center mb-4">
+        <Card className="bg-stone-700/30 backdrop-blur-3xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/40%)] p-4 sm:p-6 max-w-3xl mx-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
             <h2 className="text-xl font-semibold">Edit Personal Information</h2>
             <Link
               href="/account"
@@ -134,46 +133,50 @@ export default function EditInfoPage({ user }: { user: User | null }) {
               />
             </div>
 
-            <div>
-              <span className="text-stone-300 block mb-1">Full Name</span>
-              <input
-                type="text"
-                value={fullName || ""}
-                onChange={(e) => setFullName(e.target.value)}
-                className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <span className="text-stone-300 block mb-1">Full Name</span>
+                <input
+                  type="text"
+                  value={fullName || ""}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                />
+              </div>
+
+              <div>
+                <span className="text-stone-300 block mb-1">Username</span>
+                <input
+                  type="text"
+                  value={username || ""}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                />
+              </div>
             </div>
 
-            <div>
-              <span className="text-stone-300 block mb-1">Username</span>
-              <input
-                type="text"
-                value={username || ""}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
-              />
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <span className="text-stone-300 block mb-1">
+                  LeetCode Username
+                </span>
+                <input
+                  type="text"
+                  value={leetcodeUsername || ""}
+                  onChange={(e) => setLeetcodeUsername(e.target.value)}
+                  className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                />
+              </div>
 
-            <div>
-              <span className="text-stone-300 block mb-1">
-                LeetCode Username
-              </span>
-              <input
-                type="text"
-                value={leetcodeUsername || ""}
-                onChange={(e) => setLeetcodeUsername(e.target.value)}
-                className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
-              />
-            </div>
-
-            <div>
-              <span className="text-stone-300 block mb-1">Quality</span>
-              <input
-                type="text"
-                value={quality || ""}
-                onChange={(e) => setQuality(e.target.value)}
-                className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
-              />
+              <div>
+                <span className="text-stone-300 block mb-1">Quality</span>
+                <input
+                  type="text"
+                  value={quality || ""}
+                  onChange={(e) => setQuality(e.target.value)}
+                  className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                />
+              </div>
             </div>
 
             <div>
@@ -186,24 +189,28 @@ export default function EditInfoPage({ user }: { user: User | null }) {
               />
             </div>
 
-            <div>
-              <span className="text-stone-300 block mb-1">Main Language</span>
-              <input
-                type="text"
-                value={mainLanguage || ""}
-                onChange={(e) => setMainLanguage(e.target.value)}
-                className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
-              />
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <span className="text-stone-300 block mb-1">Main Language</span>
+                <input
+                  type="text"
+                  value={mainLanguage || ""}
+                  onChange={(e) => setMainLanguage(e.target.value)}
+                  className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                />
+              </div>
 
-            <div>
-              <span className="text-stone-300 block mb-1">Second Language</span>
-              <input
-                type="text"
-                value={secondLanguage || ""}
-                onChange={(e) => setSecondLanguage(e.target.value)}
-                className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
-              />
+              <div>
+                <span className="text-stone-300 block mb-1">
+                  Second Language
+                </span>
+                <input
+                  type="text"
+                  value={secondLanguage || ""}
+                  onChange={(e) => setSecondLanguage(e.target.value)}
+                  className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                />
+              </div>
             </div>
 
             <button

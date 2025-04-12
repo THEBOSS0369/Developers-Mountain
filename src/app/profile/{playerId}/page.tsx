@@ -67,8 +67,6 @@ export default async function UserProfilePage() {
             )}
           </div>
         </div>
-
-        {/* You can add more sections for other profile details here */}
       </div>
     </div>
   );

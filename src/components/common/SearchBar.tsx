@@ -71,10 +71,10 @@ const SearchBarWithResults = ({
       {/* Trigger button */}
       <button
         onClick={handleOpen}
-        className="w-full flex items-center gap-2 px-6 py-4 text-lg bg-stone-700/40 text-stone-400 rounded-lg hover:bg-stone-700/60 focus:outline-none border border-stone-600/30 shadow-xl backdrop-blur-xl"
+        className="w-full flex items-center gap-2 px-3 sm:px-6 py-3 sm:py-4 text-base sm:text-lg bg-stone-700/40 text-stone-400 rounded-lg hover:bg-stone-700/60 focus:outline-none border border-stone-600/30 shadow-xl backdrop-blur-xl"
       >
-        <Search className="w-5 h-5" />
-        <span className="flex-1 text-left">Search developers...</span>
+        <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+        <span className="flex-1 text-left truncate">Search developers...</span>
         <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-stone-400 bg-stone-700/50 rounded border border-stone-600/30">
           ⌘ K
         </kbd>
@@ -88,34 +88,34 @@ const SearchBarWithResults = ({
           }`}
         >
           <div
-            className={`fixed inset-x-0 top-[20%] max-w-2xl mx-auto p-4 transition-all duration-500 transform ${
+            className={`fixed inset-x-0 top-[10%] sm:top-[20%] w-[95%] sm:max-w-2xl mx-auto p-2 sm:p-4 transition-all duration-500 transform ${
               fade ? "scale-100 opacity-100" : "scale-95 opacity-0"
             }`}
           >
             <div className="relative bg-stone-700/70 backdrop-blur-sm rounded-lg shadow-2xl border border-stone-600/90">
               {/* Search input */}
-              <div className="flex items-center border-b border-stone-600/90 px-4">
-                <Search className="w-5 h-5 text-stone-400" />
+              <div className="flex items-center border-b border-stone-600/90 px-2 sm:px-4">
+                <Search className="w-4 h-4 sm:w-5 sm:h-5 text-stone-400" />
                 <input
                   ref={inputRef}
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Search developer by name or id..."
-                  className="w-full px-4 py-4 bg-transparent text-white placeholder-stone-400 focus:outline-none"
+                  className="w-full px-2 sm:px-4 py-3 sm:py-4 bg-transparent text-white placeholder-stone-400 focus:outline-none text-sm sm:text-base"
                   autoFocus
                 />
                 <button
                   onClick={handleClose}
-                  className="p-2 text-stone-400 hover:text-white"
+                  className="p-1.5 sm:p-2 text-stone-400 hover:text-white"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
 
               {/* Search Results */}
               {inputValue && filteredProfiles.length > 0 && (
-                <div className="px-4 py-3 max-h-[400px] overflow-y-auto">
+                <div className="px-2 sm:px-4 py-2 sm:py-3 max-h-[300px] sm:max-h-[400px] overflow-y-auto">
                   {filteredProfiles.map((profile) => (
                     <button
                       key={profile.id}
@@ -125,24 +125,24 @@ const SearchBarWithResults = ({
                         handleClose();
                         setInputValue("");
                       }}
-                      className={`w-full flex items-center gap-3 px-3 py-2 text-stone-300 hover:bg-stone-600/90 rounded-lg group ${profile.id === currentUserId ? "bg-stone-600/60" : ""}`}
+                      className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base text-stone-300 hover:bg-stone-600/90 rounded-lg group ${profile.id === currentUserId ? "bg-stone-600/60" : ""}`}
                     >
                       {profile.avatar_url ? (
                         <img
                           src={profile.avatar_url}
                           alt={profile.username}
-                          className="w-6 h-6 rounded-full"
+                          className="w-5 h-5 sm:w-6 sm:h-6 rounded-full"
                         />
                       ) : (
-                        <div className="w-6 h-6 rounded-full bg-stone-700 flex items-center justify-center">
-                          <span className="text-sm text-white">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-stone-700 flex items-center justify-center">
+                          <span className="text-xs sm:text-sm text-white">
                             {profile.username?.[0]?.toUpperCase() || "?"}
                           </span>
                         </div>
                       )}
-                      <span>{profile.username}</span>
+                      <span className="truncate">{profile.username}</span>
                       {profile.full_name && (
-                        <span className="text-sm text-stone-400">
+                        <span className="text-xs sm:text-sm text-stone-400 truncate hidden xs:inline">
                           ({profile.full_name})
                         </span>
                       )}
