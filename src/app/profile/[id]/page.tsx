@@ -61,68 +61,73 @@ export default async function ProfilePage({ params }: ProfileParams) {
   }
 
   return (
-    <div className="text-white min-h-screen px-6 py-2">
+    <div className="text-white min-h-screen px-2 sm:px-4 md:px-6 py-2">
       <div className="mx-auto">
         {/* Hero Background */}
-        <div className="relative shadow-[0_0_50px_theme(colors.amber.200/20%)] rounded-lg h-[250px] w-[calc(100%)] mx-auto overflow-hidden">
+        <div className="relative shadow-[0_0_50px_theme(colors.stone.500/40%)] rounded-lg h-[150px] sm:h-[200px] md:h-[250px] w-full mx-auto overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: "url('/images/enterprise.jpg')",
+              backgroundImage: "url('/images/zebra.png')",
               backgroundPosition: "center",
             }}
           />
-
-          {/* <div className="absolute shadow-[0_0_50px_theme(colors.stone.700/40%)] inset-0 rounded-lg bg-black/10 backdrop-blur-2xl to-transparent" /> */}
         </div>
 
-        {/* Profile Section */}
-        <div className="flex items-center ml-20 space-x-6 mb-6 -mt-20">
-          <div className="relative bg-stone-800/10 backdrop-blur-xl border-2 border-stone-600/20 rounded-3xl">
+        {/* Profile Section - Responsive Layout */}
+        <div className="flex flex-col md:flex-row md:items-center md:ml-20 md:space-x-6 mb-6 -mt-10 sm:-mt-16 md:-mt-20">
+          {/* Profile Image - Smaller on mobile */}
+          <div className="relative w-[200px] h-[200px] sm:w-[280px] sm:h-[250px] md:w-[360px] md:h-[300px] mx-auto md:mx-0 overflow-hidden bg-stone-800/10 backdrop-blur-xl border-2 border-stone-600/20 rounded-3xl">
             {profile.avatar_url ? (
               <Image
                 src={getPublicImageURL("avatars", profile.avatar_url)}
                 alt="Profile"
                 width={360}
                 height={360}
-                className="rounded-3xl object-cover"
+                className="rounded-3xl object-cover w-full h-full"
                 priority
               />
             ) : (
-              <div className="w-[360px] h-[360px] bg-neutral-700 rounded-3xl" />
+              <div className="w-full h-full bg-neutral-700 rounded-3xl" />
             )}
           </div>
 
-          {/* Basic Info and Stats */}
-          <div className="flex justify-between items-start p-4 mt-20 w-full">
-            <div className="flex flex-col">
-              <h1 className="text-4xl font-bold">
+          {/* Basic Info and Stats - Stack on mobile */}
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-start p-4 mt-4 md:mt-20 w-full">
+            <div className="flex flex-col items-center md:items-start mb-4 md:mb-0">
+              <h1 className="text-2xl md:text-4xl font-bold text-center md:text-left">
                 {profile.full_name || profile.username}
               </h1>
-              <h2 className="text-lg py-1 font-semibold text-lime-300">
+              <h2 className="text-lg py-1 font-semibold text-lime-300 text-center md:text-left">
                 @{profile.username}
               </h2>
             </div>
 
-            {/* Stats Overview */}
-            <div className="flex space-x-8 px-24">
+            {/* Stats Overview - Row on mobile, maintain spacing on desktop */}
+            <div className="flex space-x-4 md:space-x-8 px-2 md:px-24">
               <div className="flex flex-col items-center">
-                <span className="text-xl text-zinc-400">Total</span>
-                <span className="text-3xl font-bold">
+                <span className="text-base md:text-xl text-zinc-400">
+                  Total
+                </span>
+                <span className="text-xl md:text-3xl font-bold">
                   {(
                     (profile.scores || 0) + (profile.leetcodescores || 0)
                   ).toFixed(0)}
                 </span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-xl text-zinc-400">GitHub</span>
-                <span className="text-3xl font-bold">
+                <span className="text-base md:text-xl text-zinc-400">
+                  GitHub
+                </span>
+                <span className="text-xl md:text-3xl font-bold">
                   {profile.scores || "0"}
                 </span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-xl text-zinc-400">LeetCode</span>
-                <span className="text-3xl font-bold">
+                <span className="text-base md:text-xl text-zinc-400">
+                  LeetCode
+                </span>
+                <span className="text-xl md:text-3xl font-bold">
                   {profile.leetcodescores
                     ? profile.leetcodescores.toFixed(2)
                     : "00.00"}

@@ -14,8 +14,8 @@ export function LoginForm({
       className={cn("flex flex-col gap-6 w-full max-w-md", className)}
       {...props}
     >
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold text-white">Welcome back</h1>
+      <div className="flex flex-col items-center gap-2">
+        <h1 className="text-3xl font-semibold text-white">Welcome!!!</h1>
         <p className="text-sm text-[#7E7E86]">Sign in to your account</p>
       </div>
 
@@ -24,7 +24,7 @@ export function LoginForm({
           type="button"
           variant="outline"
           onClick={signInWithGithub}
-          className="w-full bg-[#1A1A1A] border border-[#333333] text-white hover:bg-[#242424] h-12"
+          className="w-full bg-stone-700 border border-stone-700/50 shadow-[0_0_20px_theme(colors.stone.700/10%)] bg-opacity-30 border border-[#333333] text-white hover:bg-[#242424] h-12"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -39,70 +39,75 @@ export function LoginForm({
           Continue with GitHub
         </Button>
 
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-[#333333]"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="bg-[#1C1C1C] px-2 text-[#7E7E86]">or</span>
-          </div>
-        </div>
+        <p className="text-sm text-[#7E7E86] text-center px-4">
+          Currently, we only support GitHub sign-in while we develop secure
+          authentication methods to verify user identity.
+        </p>
 
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm text-white">
-              Email
-            </Label>
-            <div className="relative">
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                required
-                placeholder="you@example.com"
-                className="bg-[#1A1A1A] border border-[#333333] text-white h-12 pl-4 pr-10 placeholder:text-[#4B4B4B] focus:border-[#666666] focus:ring-0"
-              />
-            </div>
-          </div>
+        {/* <div className="relative"> */}
+        {/*   <div className="absolute inset-0 flex items-center"> */}
+        {/*     <div className="w-full border-t border-[#333333]"></div> */}
+        {/*   </div> */}
+        {/*   <div className="relative flex justify-center text-sm"> */}
+        {/*     <span className="bg-[#1C1C1C] px-2 text-[#7E7E86]">or</span> */}
+        {/*   </div> */}
+        {/* </div> */}
 
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="text-sm text-white">
-                Password
-              </Label>
-              <a href="#" className="text-sm text-[#7E7E86] hover:text-white">
-                Forgot Password?
-              </a>
-            </div>
-            <div className="relative">
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                required
-                placeholder="••••••••"
-                className="bg-[#1A1A1A] border border-[#333333] text-white h-12 pl-4 pr-10 focus:border-[#666666] focus:ring-0"
-              />
-            </div>
-          </div>
-
-          <div className="flex gap-2">
-            <Button
-              formAction={login}
-              className="flex-1 text-md bg-neutral-700 border-[#333333] focus:border-[#666666] hover:bg-neutral-600 text-white h-12"
-            >
-              Sign In
-            </Button>
-          </div>
-        </div>
+        {/* <div className="space-y-4"> */}
+        {/*   <div className="space-y-2"> */}
+        {/*     <Label htmlFor="email" className="text-sm text-white"> */}
+        {/*       Email */}
+        {/*     </Label> */}
+        {/*     <div className="relative"> */}
+        {/*       <Input */}
+        {/*         id="email" */}
+        {/*         name="email" */}
+        {/*         type="email" */}
+        {/*         required */}
+        {/*         placeholder="you@example.com" */}
+        {/*         className="bg-[#1A1A1A] border border-[#333333] text-white h-12 pl-4 pr-10 placeholder:text-[#4B4B4B] focus:border-[#666666] focus:ring-0" */}
+        {/*       /> */}
+        {/*     </div> */}
+        {/*   </div> */}
+        {/**/}
+        {/*   <div className="space-y-2"> */}
+        {/*     <div className="flex items-center justify-between"> */}
+        {/*       <Label htmlFor="password" className="text-sm text-white"> */}
+        {/*         Password */}
+        {/*       </Label> */}
+        {/*       <a href="#" className="text-sm text-[#7E7E86] hover:text-white"> */}
+        {/*         Forgot Password? */}
+        {/*       </a> */}
+        {/*     </div> */}
+        {/*     <div className="relative"> */}
+        {/*       <Input */}
+        {/*         id="password" */}
+        {/*         name="password" */}
+        {/*         type="password" */}
+        {/*         required */}
+        {/*         placeholder="••••••••" */}
+        {/*         className="bg-[#1A1A1A] border border-[#333333] text-white h-12 pl-4 pr-10 focus:border-[#666666] focus:ring-0" */}
+        {/*       /> */}
+        {/*     </div> */}
+        {/*   </div> */}
+        {/**/}
+        {/*   <div className="flex gap-2"> */}
+        {/*     <Button */}
+        {/*       formAction={login} */}
+        {/*       className="flex-1 text-md bg-neutral-700 border-[#333333] focus:border-[#666666] hover:bg-neutral-600 text-white h-12" */}
+        {/*     > */}
+        {/*       Sign In */}
+        {/*     </Button> */}
+        {/*   </div> */}
+        {/* </div> */}
       </div>
 
-      <p className="text-center text-sm text-[#7E7E86]">
-        Don&apos;t have an account?{" "}
-        <a href="/register" className="text-white hover:text-emerald-500">
-          Sign Up Now
-        </a>
-      </p>
+      {/* <p className="text-center text-sm text-[#7E7E86]"> */}
+      {/*   Don&apos;t have an account?{" "} */}
+      {/*   <a href="/register" className="text-white hover:text-emerald-500"> */}
+      {/*     Sign Up Now */}
+      {/*   </a> */}
+      {/* </p> */}
     </form>
   );
 }

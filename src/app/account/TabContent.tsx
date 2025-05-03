@@ -29,10 +29,13 @@ export const TabContent = ({
 
   return (
     <div>
-      {/* Tab Navigation */}
+      {/* Tab Navigation - Made responsive with flex-wrap */}
       <div className="mb-6 p-2">
         <div className="border-b border-stone-700">
-          <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+          <nav
+            className="-mb-px flex flex-wrap space-x-4 md:space-x-8"
+            aria-label="Tabs"
+          >
             {[
               { id: "personal", label: "Personal Info" },
               { id: "github", label: "GitHub" },
@@ -56,9 +59,8 @@ export const TabContent = ({
 
       {/* Tab Panels */}
       {activeTab === "personal" && (
-        <Card className="bg-stone-700/30 backdrop-blur-3xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/40%)] p-6">
-          <div className="flex justify-between items-center mb-4">
-            {" "}
+        <Card className="bg-stone-700/30 backdrop-blur-3xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/40%)] p-4 md:p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
             <h2 className="text-xl font-semibold">Personal Information</h2>
             <Link
               href="/account/edit-info"
@@ -71,7 +73,7 @@ export const TabContent = ({
           <div className="space-y-4">
             <div>
               <span className="text-stone-300 block mb-1">Email</span>
-              <p>{user?.email}</p>
+              <p className="break-words">{user?.email}</p>
             </div>
             {profile?.website && (
               <div>
@@ -80,7 +82,7 @@ export const TabContent = ({
                   href={profile.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-lime-300 hover:text-lime-200"
+                  className="text-lime-300 hover:text-lime-200 break-words"
                 >
                   {profile.website}
                 </a>
@@ -88,7 +90,7 @@ export const TabContent = ({
             )}
             <div>
               <span className="text-stone-300 block mb-1">Languages</span>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <p className="px-4 py-1.5 font-semibold rounded-sm bg-stone-700 text-zinc-200">
                   {profile?.mainlanguage}
                 </p>
@@ -102,11 +104,11 @@ export const TabContent = ({
       )}
 
       {activeTab === "github" && (
-        <Card className="bg-stone-700/20 backdrop-blur-2xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/40%)] p-6">
+        <Card className="bg-stone-700/20 backdrop-blur-2xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/40%)] p-4 md:p-6">
           <h2 className="text-xl font-semibold mb-4">GitHub Activity</h2>
           <ProfileCard user={githubUser} />
           {githubData && (
-            <div className="flex space-x-6 mt-6">
+            <div className="flex flex-col lg:flex-row gap-6 mt-6">
               <div className="flex-1">
                 <RepositoryList repositories={githubData.repos} />
               </div>
@@ -119,14 +121,14 @@ export const TabContent = ({
       )}
 
       {activeTab === "leetcode" && (
-        <Card className="bg-stone-700/20 backdrop-blur-2xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/40%)] p-6">
+        <Card className="bg-stone-700/20 backdrop-blur-2xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/40%)] p-4 md:p-6">
           <h2 className="text-xl font-semibold mb-4">LeetCode Progress</h2>
           <div className="w-full mb-4">
             <Card className="bg-stone-700/30 backdrop-blur-xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)]">
               <CardHeader>
                 <CardTitle>
                   {profile?.leetcodeusername && (
-                    <span className="text-stone-300">
+                    <span className="text-stone-300 break-words">
                       LeetCode User Name:{" "}
                       <span className="text-lime-300">
                         @{profile?.leetcodeusername}
@@ -138,7 +140,7 @@ export const TabContent = ({
             </Card>
           </div>
           {profile?.leetcodeusername && leetcodeStats && (
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               <div>
                 <RadialChart
                   title="LeetCode Progress"
@@ -150,31 +152,37 @@ export const TabContent = ({
                   trendPeriod="All Time"
                 />
               </div>
-              <div className="flex bg-stone-700/30 backdrop-blur-xl border-stone-300/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)] rounded-2xl flex-col justify-center space-y-8">
+              <div className="flex bg-stone-700/30 backdrop-blur-xl border-stone-300/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)] rounded-2xl flex-col justify-center p-4 space-y-6 md:space-y-8">
                 <div className="text-center rounded-2xl">
-                  <span className="text-xl font-bold text-lime-300">
+                  <span className="text-lg md:text-xl font-bold text-lime-300">
                     Total Questions Solved
                   </span>
-                  <span className="text-4xl font-bold block mt-2">
+                  <span className="text-3xl md:text-4xl font-bold block mt-2">
                     {leetcodeStats.totalSolved}/3445
                   </span>
                 </div>
-                <div className="grid grid-cols-3 gap-8">
+                <div className="grid grid-cols-3 gap-4 md:gap-8">
                   <div className="text-center">
-                    <span className="text-green-500 block">Easy</span>
-                    <p className="text-3xl font-bold">
+                    <span className="text-green-500 block text-sm md:text-base">
+                      Easy
+                    </span>
+                    <p className="text-2xl md:text-3xl font-bold">
                       {leetcodeStats.easySolved}/856
                     </p>
                   </div>
                   <div className="text-center">
-                    <span className="text-yellow-500 block">Medium</span>
-                    <p className="text-3xl font-bold">
+                    <span className="text-yellow-500 block text-sm md:text-base">
+                      Medium
+                    </span>
+                    <p className="text-2xl md:text-3xl font-bold">
                       {leetcodeStats.mediumSolved}/1793
                     </p>
                   </div>
                   <div className="text-center">
-                    <span className="text-red-500 block">Hard</span>
-                    <p className="text-3xl font-bold">
+                    <span className="text-red-500 block text-sm md:text-base">
+                      Hard
+                    </span>
+                    <p className="text-2xl md:text-3xl font-bold">
                       {leetcodeStats.hardSolved}/796
                     </p>
                   </div>

@@ -1,4 +1,5 @@
 Claude 
+Project details
 
 my-github-clone/
 ├── .env.local                    # Local environment variables

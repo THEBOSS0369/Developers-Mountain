@@ -36,7 +36,7 @@ export default async function RankingsPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <div className="relative shadow-[0_0_50px_theme(colors.stone.500/10%)] rounded-lg h-[500px] w-[calc(100%-20px)] mx-auto overflow-hidden">
+      <div className="relative shadow-[0_0_50px_theme(colors.stone.500/10%)] rounded-lg h-[400px] sm:h-[450px] md:h-[500px] w-[calc(100%-16px)] sm:w-[calc(100%-20px)] mx-auto overflow-hidden">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -46,26 +46,25 @@ export default async function RankingsPage() {
           }}
         >
           {/* Overlay for better text readability */}
-          <div className="absolute bg-black/30 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]" />
         </div>
-
         {/* Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-          <h1 className="text-4xl md:text-7xl font-bold text-stone-200 mb-6">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-3 sm:px-4">
+          <h1 className="text-4xl sm:text-4xl md:text-7xl font-bold text-stone-200 mb-1 sm:mb-4 md:mb-6">
             Developers Rankings
           </h1>
-          <p className="text-xl md:text-4xl text-stone-400 max-w-2xl mb-12">
+          <p className="text-base sm:text-lg md:text-4xl text-stone-400 max-w-2xl mb-6 sm:mb-8 md:mb-12">
             {" "}
-            {/* Increased margin bottom from mb-8 to mb-16 */}
             Track your progress and compete with others in our global
             leaderboard!
           </p>
-
           {/* Search Bar */}
-          <SearchSection
-            profiles={playersWithAvatars}
-            currentUserId={user?.id || ""}
-          />
+          <div className="w-[90%] sm:w-full sm:max-w-2xl">
+            <SearchSection
+              profiles={playersWithAvatars}
+              currentUserId={user?.id || ""}
+            />
+          </div>
         </div>
       </div>
 
