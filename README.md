@@ -4,6 +4,10 @@ Our project showcases the **ranks of developers** based on their **GitHub skills
 
 ---
 
+## Deployment
+
+The deployment will be done within a week or 2....
+
 ###  The Reason
 
 With the rising concern of **AI impacting software jobs** and **over 3 million developers in India alone**, it’s becoming increasingly difficult for companies to identify candidates who are both **practically skilled** and **analytically strong**.
