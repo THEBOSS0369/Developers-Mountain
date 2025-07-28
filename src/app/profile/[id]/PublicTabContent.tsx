@@ -56,46 +56,91 @@ export const PublicTabContent = ({
             Personal Information
           </h2>
 
-          {profile?.website ||
-          profile?.mainlanguage ||
-          profile?.secondlanguage ? (
-            <div className="space-y-4">
-              {profile?.website && (
-                <div>
-                  <span className="text-stone-300 block mb-1">Website</span>
-                  <a
-                    href={profile.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-lime-300 hover:text-lime-200 text-sm sm:text-base break-all"
-                  >
-                    {profile.website}
-                  </a>
+          <div className="space-y-4">
+            {profile?.full_name && (
+              <div>
+                <span className="text-stone-300 block mb-1">Full Name</span>
+                <p className="text-sm sm:text-base break-words">
+                  {profile.full_name}
+                </p>
+              </div>
+            )}
+
+            {profile?.username && (
+              <div>
+                <span className="text-stone-300 block mb-1">Username</span>
+                <p className="text-sm sm:text-base break-words">
+                  @{profile.username}
+                </p>
+              </div>
+            )}
+
+            {profile?.leetcodeusername && (
+              <div>
+                <span className="text-stone-300 block mb-1">
+                  LeetCode Username
+                </span>
+                <p className="text-sm sm:text-base break-words">
+                  {profile.leetcodeusername}
+                </p>
+              </div>
+            )}
+
+            {profile?.quality && (
+              <div>
+                <span className="text-stone-300 block mb-1">Quality</span>
+                <p className="text-sm sm:text-base break-words">
+                  {profile.quality}
+                </p>
+              </div>
+            )}
+
+            {profile?.website && (
+              <div>
+                <span className="text-stone-300 block mb-1">Website</span>
+                <a
+                  href={profile.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lime-300 hover:text-lime-200 text-sm sm:text-base break-all"
+                >
+                  {profile.website}
+                </a>
+              </div>
+            )}
+
+            {(profile?.mainlanguage || profile?.secondlanguage) && (
+              <div>
+                <span className="text-stone-300 block mb-1">
+                  Programming Languages
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {profile?.mainlanguage && (
+                    <span className="px-3 sm:px-4 py-1 sm:py-1.5 text-sm sm:text-base font-semibold rounded-lg bg-stone-700 text-zinc-200">
+                      {profile.mainlanguage}
+                    </span>
+                  )}
+                  {profile?.secondlanguage && (
+                    <span className="px-3 sm:px-4 py-1 sm:py-1.5 text-sm sm:text-base font-semibold rounded-lg bg-stone-700 text-zinc-200">
+                      {profile.secondlanguage}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {!profile?.full_name &&
+              !profile?.username &&
+              !profile?.leetcodeusername &&
+              !profile?.quality &&
+              !profile?.website &&
+              !profile?.mainlanguage &&
+              !profile?.secondlanguage && (
+                <div className="text-center text-stone-400 mt-4">
+                  <p>User hasn't added personal information.</p>
                 </div>
               )}
-              {(profile?.mainlanguage || profile?.secondlanguage) && (
-                <div>
-                  <span className="text-stone-300 block mb-1">Languages</span>
-                  <div className="flex flex-wrap gap-2">
-                    {profile?.mainlanguage && (
-                      <p className="px-3 sm:px-4 py-1 sm:py-1.5 text-sm sm:text-base font-semibold rounded-sm bg-stone-700 text-zinc-200">
-                        {profile.mainlanguage}
-                      </p>
-                    )}
-                    {profile?.secondlanguage && (
-                      <p className="px-3 sm:px-4 py-1 sm:py-1.5 text-sm sm:text-base font-semibold rounded-sm bg-stone-700 text-zinc-200">
-                        {profile.secondlanguage}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="text-center text-stone-400 mt-4">
-              <p>User hasn't added personal information.</p>
-            </div>
-          )}
+          </div>
         </Card>
       )}
 
@@ -104,7 +149,7 @@ export const PublicTabContent = ({
           <h2 className="text-lg sm:text-xl font-semibold mb-4">
             GitHub Activity
           </h2>
-          {githubData ? (
+          {githubData && githubData.prs && githubData.prs.length > 0 ? (
             <div className="flex flex-col lg:flex-row lg:space-x-6 space-y-6 lg:space-y-0 mt-6">
               <div className="lg:flex-1">
                 <RepositoryList repositories={githubData.repos} />
@@ -115,10 +160,18 @@ export const PublicTabContent = ({
             </div>
           ) : (
             <div className="text-center py-6 sm:py-12">
-              <div className="text-stone-300 mb-3">
-                No data available... T__T
-                <br />
-                Please Sign in to view the Data!
+              <div className="text-amber-300">
+                <span className="text-2xl block mb-2">📊</span>
+                <p className="font-semibold mb-2">
+                  User needs to create pull requests to show their score
+                </p>
+                <p className="text-sm text-amber-400 mb-2">
+                  GitHub contributions and pull requests will be displayed here
+                  once they start contributing to repositories.
+                </p>
+                <p className="text-sm text-amber-500 font-medium">
+                  Else if you haven't logged in you won't be able see the data!
+                </p>
               </div>
             </div>
           )}
@@ -130,80 +183,91 @@ export const PublicTabContent = ({
           <h2 className="text-lg sm:text-xl font-semibold mb-4">
             LeetCode Progress
           </h2>
-          <div className="w-full mb-4">
-            <Card className="bg-stone-700/30 backdrop-blur-xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)]">
-              <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
-                <CardTitle>
-                  {profile?.leetcodeusername ? (
+          {profile?.leetcodeusername && (
+            <div className="w-full mb-4">
+              <Card className="bg-stone-700/30 backdrop-blur-xl border-stone-700/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)]">
+                <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                  <CardTitle>
                     <span className="text-stone-300 text-sm sm:text-base">
                       LeetCode User Name:{" "}
                       <span className="text-lime-300">
                         @{profile.leetcodeusername}
                       </span>
                     </span>
-                  ) : (
-                    <span className="text-red-400 text-sm sm:text-base">
-                      User hasn't added his/her LeetCode
-                    </span>
-                  )}
-                </CardTitle>
-              </CardHeader>
-            </Card>
-          </div>
-
-          {profile?.leetcodeusername && leetcodeStats ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
-              <div>
-                <RadialChart
-                  title="LeetCode Progress"
-                  value={leetcodeStats.totalSolved}
-                  maxValue={3445}
-                  label="Total Solved"
-                  description="Problem Solving Progress"
-                  trend={3.5}
-                  trendPeriod="All Time"
-                />
-              </div>
-              <div className="flex bg-stone-700/30 backdrop-blur-xl border-stone-300/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)] rounded-2xl flex-col justify-center space-y-4 sm:space-y-8 p-4">
-                <div className="text-center rounded-2xl">
-                  <span className="text-base sm:text-xl font-bold text-lime-300">
-                    Total Questions Solved
-                  </span>
-                  <span className="text-2xl sm:text-4xl font-bold block mt-2">
-                    {leetcodeStats.totalSolved}/3445
-                  </span>
-                </div>
-                <div className="grid grid-cols-3 gap-2 sm:gap-8">
-                  <div className="text-center">
-                    <span className="text-green-500 block text-sm sm:text-base">
-                      Easy
-                    </span>
-                    <p className="text-xl sm:text-3xl font-bold">
-                      {leetcodeStats.easySolved}/856
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <span className="text-yellow-500 block text-sm sm:text-base">
-                      Medium
-                    </span>
-                    <p className="text-xl sm:text-3xl font-bold">
-                      {leetcodeStats.mediumSolved}/1793
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <span className="text-red-500 block text-sm sm:text-base">
-                      Hard
-                    </span>
-                    <p className="text-xl sm:text-3xl font-bold">
-                      {leetcodeStats.hardSolved}/796
-                    </p>
-                  </div>
-                </div>
-              </div>
+                  </CardTitle>
+                </CardHeader>
+              </Card>
             </div>
+          )}
+
+          {profile?.leetcodeusername ? (
+            leetcodeStats ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div>
+                  <RadialChart
+                    title="LeetCode Progress"
+                    value={leetcodeStats.totalSolved}
+                    maxValue={3445}
+                    label="Total Solved"
+                    description="Problem Solving Progress"
+                    trend={3.5}
+                    trendPeriod="All Time"
+                  />
+                </div>
+                <div className="flex bg-stone-700/30 backdrop-blur-xl border-stone-300/70 shadow-[0_0_50px_theme(colors.neutral.700/30%)] rounded-2xl flex-col justify-center space-y-4 sm:space-y-8 p-4">
+                  <div className="text-center rounded-2xl">
+                    <span className="text-base sm:text-xl font-bold text-lime-300">
+                      Total Questions Solved
+                    </span>
+                    <span className="text-2xl sm:text-4xl font-bold block mt-2">
+                      {leetcodeStats.totalSolved}/3445
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 sm:gap-8">
+                    <div className="text-center">
+                      <span className="text-green-500 block text-sm sm:text-base">
+                        Easy
+                      </span>
+                      <p className="text-xl sm:text-3xl font-bold">
+                        {leetcodeStats.easySolved}/856
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <span className="text-yellow-500 block text-sm sm:text-base">
+                        Medium
+                      </span>
+                      <p className="text-xl sm:text-3xl font-bold">
+                        {leetcodeStats.mediumSolved}/1793
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <span className="text-red-500 block text-sm sm:text-base">
+                        Hard
+                      </span>
+                      <p className="text-xl sm:text-3xl font-bold">
+                        {leetcodeStats.hardSolved}/796
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center text-stone-400 mt-4">
+                <p>Loading LeetCode data...</p>
+              </div>
+            )
           ) : (
-            <div className="text-center text-stone-400 mt-4">
-              <p>No data available... T__T</p>
+            <div className="text-center py-6">
+              <div className="text-amber-300">
+                <span className="text-2xl block mb-2">🧮</span>
+                <p className="font-semibold">
+                  User hasn't added their LeetCode profile
+                </p>
+                <p className="text-sm text-amber-400 mt-1">
+                  LeetCode progress and statistics will be displayed here once
+                  they add their username.
+                </p>
+              </div>
             </div>
           )}
         </Card>
