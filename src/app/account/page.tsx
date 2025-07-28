@@ -19,7 +19,7 @@ export default async function Account() {
   const { data: profile, error } = await supabase
     .from("profiles")
     .select(
-      "full_name, username, website, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername, leetcodescores"
+      "full_name, username, website, avatar_url, scores, mainlanguage, secondlanguage, quality, leetcodeusername, leetcodescores"
     )
     .eq("id", user?.id)
     .single();

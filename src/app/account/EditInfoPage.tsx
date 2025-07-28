@@ -141,6 +141,7 @@ export default function EditInfoPage({ user }: { user: User | null }) {
                   value={fullName || ""}
                   onChange={(e) => setFullName(e.target.value)}
                   className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                  placeholder="Enter your full name"
                 />
               </div>
 
@@ -151,6 +152,7 @@ export default function EditInfoPage({ user }: { user: User | null }) {
                   value={username || ""}
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                  placeholder="Choose a username"
                 />
               </div>
             </div>
@@ -165,6 +167,7 @@ export default function EditInfoPage({ user }: { user: User | null }) {
                   value={leetcodeUsername || ""}
                   onChange={(e) => setLeetcodeUsername(e.target.value)}
                   className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                  placeholder="Your LeetCode username"
                 />
               </div>
 
@@ -175,6 +178,7 @@ export default function EditInfoPage({ user }: { user: User | null }) {
                   value={quality || ""}
                   onChange={(e) => setQuality(e.target.value)}
                   className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                  placeholder="e.g., THE BOSS, Senior Developer"
                 />
               </div>
             </div>
@@ -186,6 +190,7 @@ export default function EditInfoPage({ user }: { user: User | null }) {
                 value={website || ""}
                 onChange={(e) => setWebsite(e.target.value)}
                 className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                placeholder="https://your-portfolio.com"
               />
             </div>
 
@@ -197,6 +202,7 @@ export default function EditInfoPage({ user }: { user: User | null }) {
                   value={mainLanguage || ""}
                   onChange={(e) => setMainLanguage(e.target.value)}
                   className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                  placeholder="e.g., Javascript"
                 />
               </div>
 
@@ -209,6 +215,7 @@ export default function EditInfoPage({ user }: { user: User | null }) {
                   value={secondLanguage || ""}
                   onChange={(e) => setSecondLanguage(e.target.value)}
                   className="w-full p-2 bg-stone-800/50 border border-stone-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                  placeholder="e.g., Python, TypeScript"
                 />
               </div>
             </div>

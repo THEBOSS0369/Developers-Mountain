@@ -54,20 +54,58 @@ export default async function UserProfilePage({
           {/* Add more stats here if needed (e.g., wins, games played) */}
         </div>
 
-        <div className="border-t border-[#2D2D2D] pt-4">
-          <h2 className="text-xl font-semibold mb-2">Languages:</h2>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {profile.mainlanguage && (
-              <span className="px-3 py-1 rounded-full bg-[#2D2D2D] text-sm font-semibold">
-                {profile.mainlanguage}
+        <div className="border-t border-[#2D2D2D] pt-4 space-y-4">
+          {profile.quality && (
+            <div className="text-center">
+              <h2 className="text-lg font-semibold mb-2">Quality:</h2>
+              <span className="px-4 py-2 rounded-full bg-[#2D2D2D] text-sm font-semibold text-lime-300">
+                {profile.quality}
               </span>
-            )}
-            {profile.secondlanguage && (
-              <span className="px-3 py-1 rounded-full bg-[#2D2D2D] text-sm font-semibold">
-                {profile.secondlanguage}
+            </div>
+          )}
+
+          {profile.leetcodeusername && (
+            <div className="text-center">
+              <h2 className="text-lg font-semibold mb-2">LeetCode:</h2>
+              <span className="px-4 py-2 rounded-full bg-[#2D2D2D] text-sm font-semibold text-yellow-300">
+                @{profile.leetcodeusername}
               </span>
-            )}
-          </div>
+            </div>
+          )}
+
+          {profile.website && (
+            <div className="text-center">
+              <h2 className="text-lg font-semibold mb-2">Website:</h2>
+              <a
+                href={profile.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lime-300 hover:text-lime-200 text-sm break-all underline"
+              >
+                {profile.website}
+              </a>
+            </div>
+          )}
+
+          {(profile.mainlanguage || profile.secondlanguage) && (
+            <div>
+              <h2 className="text-lg font-semibold mb-2 text-center">
+                Programming Languages:
+              </h2>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {profile.mainlanguage && (
+                  <span className="px-3 py-1 rounded-full bg-[#2D2D2D] text-sm font-semibold">
+                    {profile.mainlanguage}
+                  </span>
+                )}
+                {profile.secondlanguage && (
+                  <span className="px-3 py-1 rounded-full bg-[#2D2D2D] text-sm font-semibold">
+                    {profile.secondlanguage}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
