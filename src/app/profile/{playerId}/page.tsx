@@ -2,11 +2,13 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { getPublicImageURL } from "@/utils/supabase/public-url";
-import { useParams } from "next/navigation";
 
-export default async function UserProfilePage() {
-  const params = useParams();
-  const playerId = params.playerId as string;
+export default async function UserProfilePage({
+  params,
+}: {
+  params: Promise<{ playerId: string }>;
+}) {
+  const { playerId } = await params;
 
   const supabase = await createClient();
 
@@ -26,7 +28,7 @@ export default async function UserProfilePage() {
   }
 
   const avatarUrl = profile.avatar_url
-    ? getPublicImageURL(profile.avatar_url)
+    ? getPublicImageURL("avatars", profile.avatar_url)
     : null;
 
   return (

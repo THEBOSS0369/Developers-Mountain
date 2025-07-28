@@ -12,7 +12,7 @@ export default async function Home() {
   const { data: profiles, error } = await supabase
     .from("profiles")
     .select(
-      "id, username, full_name, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername, leetcodescores",
+      "id, username, full_name, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername, leetcodescores"
     )
     .order("scores", { ascending: false });
 
@@ -130,7 +130,7 @@ export default async function Home() {
                   </Link>
                 ) : (
                   <Link
-                    href="/Login"
+                    href="/login"
                     className="px-8 py-4 bg-white text-gray-900 rounded-md font-bold text-lg hover:bg-gray-200 transition-colors flex items-center justify-center"
                   >
                     <svg

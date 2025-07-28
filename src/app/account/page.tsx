@@ -6,7 +6,9 @@ import Image from "next/image";
 import { GitHubUser } from "@/types/github";
 import { fetchGitHubData } from "@/lib/github";
 import { fetchLeetCodeStats } from "@/lib/leetcode";
-import { TabContent } from "./TabContent.tsx";
+import { TabContent } from "./TabContent";
+import { Suspense } from "react";
+import { InstantLoadingSpinner } from "@/components/common/InstantLoadingSpinner";
 
 export default async function Account() {
   const supabase = await createClient();
@@ -17,7 +19,7 @@ export default async function Account() {
   const { data: profile, error } = await supabase
     .from("profiles")
     .select(
-      "full_name, username, website, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername, leetcodescores",
+      "full_name, username, website, avatar_url, scores, mainlanguage, secondlanguage, leetcodeusername, leetcodescores"
     )
     .eq("id", user?.id)
     .single();
@@ -132,13 +134,15 @@ export default async function Account() {
         </div>
 
         {/* Tab Content */}
-        <TabContent
-          user={user}
-          profile={profile}
-          githubUser={githubUser}
-          githubData={githubData}
-          leetcodeStats={leetcodeStats}
-        />
+        <Suspense fallback={<InstantLoadingSpinner />}>
+          <TabContent
+            user={user}
+            profile={profile}
+            githubUser={githubUser}
+            githubData={githubData}
+            leetcodeStats={leetcodeStats}
+          />
+        </Suspense>
 
         {/* Sign Out Button */}
         <div className="mt-6 mb-8">

@@ -4,14 +4,15 @@ import { createClient } from "@/utils/supabase/server"; // Adjust path if necess
 
 export const GET = async (
   request: Request,
-  { params }: { params: { playerId: string } },
+  { params }: { params: Promise<{ playerId: string }> }
 ) => {
   const supabase = await createClient();
+  const { playerId } = await params;
 
   const { data: profile, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", params.playerId)
+    .eq("id", playerId)
     .single();
 
   if (error) {

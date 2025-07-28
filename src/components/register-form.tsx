@@ -145,7 +145,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
 
       <p className="text-center text-sm text-[#7E7E86]">
         Already have an account?{" "}
-        <a href="/Login" className="text-white hover:text-emerald-500">
+        <a href="/login" className="text-white hover:text-emerald-500">
           Sign In
         </a>
       </p>

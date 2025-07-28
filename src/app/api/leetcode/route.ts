@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   if (!username || !userId) {
     return NextResponse.json(
       { error: "Username and userId are required" },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
     if (!data.data?.matchedUser) {
       return NextResponse.json(
         { error: "LeetCode user not found" },
-        { status: 404 },
+        { status: 404 }
       );
     }
 
@@ -58,8 +58,8 @@ export async function GET(request: Request) {
     const problems = data.data.matchedUser.submitStats.acSubmissionNum;
     const leetcodeScore = problems.reduce((total: number, problem: any) => {
       // Weight different difficulty levels
-      const weights = { Easy: 1, Medium: 2, Hard: 3 };
-      return total + problem.count * weights[problem.difficulty];
+      const weights: Record<string, number> = { Easy: 1, Medium: 2, Hard: 3 };
+      return total + problem.count * (weights[problem.difficulty] || 0);
     }, 0);
 
     // Update the leetcode_scores column
@@ -80,7 +80,7 @@ export async function GET(request: Request) {
     console.error("Error processing LeetCode data:", error);
     return NextResponse.json(
       { error: "Failed to process LeetCode data" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
