@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
 
   // For Custom Sign In Page othewise default next auth shows up
   pages: {
-    signIn: "/Login",
+    signIn: "/login",
   },
 
   callbacks: {

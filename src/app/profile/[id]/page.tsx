@@ -5,37 +5,41 @@ import { getPublicImageURL } from "@/utils/supabase/public-url";
 import { PublicTabContent } from "./PublicTabContent";
 import { fetchGitHubData } from "@/lib/github";
 import { fetchLeetCodeStats } from "@/lib/leetcode";
+import { Suspense } from "react";
+import { InstantLoadingSpinner } from "@/components/common/InstantLoadingSpinner";
 
 interface ProfileParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: ProfileParams) {
+  const { id } = await params;
   return {
-    title: `Profile ${params.id}`,
+    title: `Profile ${id}`,
   };
 }
 
 export default async function ProfilePage({ params }: ProfileParams) {
   const supabase = await createClient();
+  const { id } = await params;
 
-  if (!params.id) {
+  if (!id) {
     notFound();
   }
 
   let { data: profile, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (!profile && error) {
     const { data: githubProfile, error: githubError } = await supabase
       .from("profiles")
       .select("*")
-      .eq("provider_id", params.id)
+      .eq("provider_id", id)
       .single();
 
     if (githubProfile) {
@@ -80,7 +84,10 @@ export default async function ProfilePage({ params }: ProfileParams) {
           <div className="relative w-[200px] h-[200px] sm:w-[280px] sm:h-[250px] md:w-[360px] md:h-[300px] mx-auto md:mx-0 overflow-hidden bg-stone-800/10 backdrop-blur-xl border-2 border-stone-600/20 rounded-3xl">
             {profile.avatar_url ? (
               <Image
-                src={getPublicImageURL("avatars", profile.avatar_url)}
+                src={
+                  getPublicImageURL("avatars", profile.avatar_url) ||
+                  "/default-avatar.png"
+                }
                 alt="Profile"
                 width={360}
                 height={360}
@@ -138,11 +145,13 @@ export default async function ProfilePage({ params }: ProfileParams) {
         </div>
 
         {/* Tab Content */}
-        <PublicTabContent
-          profile={profile}
-          githubData={githubData}
-          leetcodeStats={leetcodeStats}
-        />
+        <Suspense fallback={<InstantLoadingSpinner />}>
+          <PublicTabContent
+            profile={profile}
+            githubData={githubData}
+            leetcodeStats={leetcodeStats}
+          />
+        </Suspense>
       </div>
     </div>
   );

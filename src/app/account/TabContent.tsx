@@ -7,7 +7,7 @@ import { PullRequestList } from "@/components/github/PullRequestList";
 import PRScoreChart from "@/components/PRScoreChart";
 import { useState } from "react";
 import { RadialChart } from "@/components/RadialChart";
-import LeetProfileCard from "@/components/leetcode/LeetProfileCard";
+import { LeetProfileCard } from "@/components/leetcode/LeetProfileCard";
 import Link from "next/link";
 
 interface TabContentProps {

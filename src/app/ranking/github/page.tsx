@@ -144,7 +144,7 @@ export default async function Account() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {githubData.repos.map((repo) => (
+              {githubData?.repos?.map((repo: any) => (
                 <div key={repo.id} className="border-b pb-4">
                   <a
                     href={repo.html_url}
@@ -173,7 +173,7 @@ export default async function Account() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {githubData.prs.map((pr) => (
+              {githubData?.prs?.map((pr: any) => (
                 <div key={pr.id} className="border-b pb-4">
                   <a
                     href={pr.html_url}

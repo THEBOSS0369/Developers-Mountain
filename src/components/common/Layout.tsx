@@ -3,11 +3,11 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Header from "./Header";
-import Footer from "./Footer.tsx";
+import Footer from "./Footer";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
-  const isLoginPage = pathname === "/Login" || pathname === "/register";
+  const isLoginPage = pathname === "/login" || pathname === "/register";
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {

@@ -214,7 +214,7 @@ export default function EditInfoPage({ user }: { user: User | null }) {
             </div>
 
             <button
-              onClick={updateProfile}
+              onClick={() => updateProfile()}
               disabled={loading}
               className="w-full bg-green-600 border-green-700/70 shadow-[0_0_50px_theme(colors.green.700/10%)] text-white rounded-lg px-4 py-2 mt-4 hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >

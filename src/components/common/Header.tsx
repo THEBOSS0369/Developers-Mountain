@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Github } from "lucide-react";
 import { LoginButton, ProfileButton } from "./buttons.component";
 import NavigationMenuDemo from "./NavigationMenuDemo";
 import { type User } from "@supabase/supabase-js";
@@ -12,7 +12,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const lastPathRef = useRef(
-    typeof window !== "undefined" ? window.location.pathname : "",
+    typeof window !== "undefined" ? window.location.pathname : ""
   );
 
   useEffect(() => {
@@ -126,6 +126,16 @@ const Header = () => {
           </div>
         </div>
         <div className="flex items-center space-x-2 md:space-x-4">
+          {/* GitHub Repository Link */}
+          <Link
+            href="https://github.com/THEBOSS0369/Developers-Mountain"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 text-white hover:text-gray-300 rounded-md hover:bg-neutral-700/50 transition-all duration-300 group"
+            title="View on GitHub"
+          >
+            <Github className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+          </Link>
           {user ? <ProfileButton /> : <LoginButton />}
           <button
             className="md:hidden p-2 text-white rounded-md hover:bg-neutral-700 transition-colors duration-300"
